@@ -1,0 +1,15 @@
+$c_success: #28A745;
+$c_primary: #007BFF;
+$c_warning: #FFC107;
+$c_danger: #DC3545;
+$c_letter: #ffffff;
+
+.btn_base{
+  padding: 1.5dvh .5dvh 1.5dvh .5dvh;
+  outline: none;
+  cursor: pointer;
+  color: black;
+  display: flex;
+  flex-direction: row;
+   
+}
