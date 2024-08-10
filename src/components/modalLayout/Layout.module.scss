@@ -5,8 +5,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 3dvh;
 
   .logotype{
-    width: 30dvh;
+    width: 15dvh;
+    margin-bottom: 3dvh;
   }
+  .content{
+    width: 100%;
+    margin: 0 0 3dvh 0;
+    padding: 3dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    max-height: 50dvh;
+  }
+
 }

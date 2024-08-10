@@ -3,13 +3,81 @@ $c_primary: #007BFF;
 $c_warning: #FFC107;
 $c_danger: #DC3545;
 $c_letter: #ffffff;
+$c_success_contrast: #1E7D32;
+$c_primary_contrast: #0056b3;
+$c_warning_contrast: #FFA000;
+$c_danger_contrast: #C82333;
 
 .btn_base{
-  padding: 1.5dvh .5dvh 1.5dvh .5dvh;
+  padding: 1.5dvh .7dvh 1.5dvh .7dvh;
   outline: none;
   cursor: pointer;
-  color: black;
+  color: $c_letter;
   display: flex;
   flex-direction: row;
-   
+  font-size: 3dvh;
+  transition: .3s ease-in-out;
+  border-radius: 3px;
+
+  svg{
+    margin-right: 1dvh;
+    margin-top: .4dvh;
+  }
+}
+
+.default{
+  background-color: $c_primary;
+  border: 5px solid $c_primary_contrast;
+  &:hover{
+    background-color: $c_primary_contrast;
+    border-color: $c_primary;
+  }
+}
+
+.success{
+  background-color: $c_success;
+  border: 5px solid $c_success_contrast;
+  &:hover{
+    background-color: $c_success_contrast;
+    border-color: $c_success;
+  }
+}
+
+.warning{
+  background-color: $c_warning;
+  border: $c_warning_contrast;
+  &:hover{
+    background-color: $c_warning_contrast;
+    border-color: $c_warning;
+  }
+}
+
+.danger{
+  background-color: $c_danger;
+  border: $c_danger_contrast;
+  &:hover{
+    background-color: $c_danger_contrast;
+    border: $c_danger;
+  }
+}
+
+.btn_close{
+  padding: 1dvh;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  outline: none;
+  cursor: pointer;
+  background-color: $c_danger;
+  border: 5px solid $c_danger_contrast;
+  transition: .3s ease-in-out;
+  border-radius: 3px;
+  svg{
+    font-size: 3dvh;
+    color: $c_letter;
+  }
+  &:hover{
+    border: 5px solid $c_danger;
+    background-color: $c_danger_contrast;
+  }
 }

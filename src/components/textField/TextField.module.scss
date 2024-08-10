@@ -1,0 +1,19 @@
+$c_letter: #ffffff;
+
+.input_container{
+  width: 100%;
+  padding: 2dvh 0 2dvh 0;
+  input{
+    width: 90%;
+    margin: 0 0 0 3%;
+    padding: 2dvh;
+    outline-color: $c_letter;
+    border: 5px solid $c_letter;
+    background-color: transparent;
+    color: $c_letter;
+    font-size: 18px;
+    &::placeholder{
+      color: $c_letter;
+    }
+  }
+}

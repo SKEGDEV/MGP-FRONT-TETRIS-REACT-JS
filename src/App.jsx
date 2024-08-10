@@ -1,20 +1,16 @@
-import { useState } from 'react'
-import Modal from './components/modal/Modal'
-import LayoutModal from './components/modalLayout/Layout'
-import Button from './components/button/Button'
-import { FaDoorClosed } from "react-icons/fa";
+import { useState, useContext } from 'react'
+import { GlobalStateContext } from './components/state/State';
+import NavBar from './components/nav/Nav';
+import 'animate.css'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ModalOpen, setModalOpen] = useState(false);
+  const {state, dispatch} = useContext(GlobalStateContext);
 
   return (
-    <>
-     <Modal>
-      <LayoutModal>
-        <h1>Hello</h1>
-        <Button><FaDoorClosed/>Hello</Button>
-      </LayoutModal>
-     </Modal>
+    <> 
+     <NavBar/>
     </>
   )
 }

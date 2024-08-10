@@ -1,9 +1,29 @@
 import styles from './Modal.module.scss';
+import Button from '../button/Button';
+import { introAnimation, outroAnimation } from '../../constant/animateConstant';
+import { useState, useEffect } from 'react';
 
-const Modal = ({children})=>{
+const Modal = ({modalState, isOpen, children})=>{
+  const [animation, setAnimation] = useState('');
+
+  const closeModal = ()=>{
+    setAnimation(outroAnimation.bounceDownOut);
+    setTimeout(()=>{modalState(false); setAnimation('');}, 700)
+  }
+
+  useEffect(()=>{
+    if(isOpen){
+      setAnimation(introAnimation.bounceUpIn);
+    }
+  },[isOpen]);
+
   return(
-    <div className={styles.modal_bg}>
-      <div className={styles.modal_content}>{children}</div>
+    <div style={isOpen === false ? {display:'none'}: {display:'flex'} }
+     className={styles.modal_bg}> 
+      <div className={`${styles.modal_content} ${animation}`}>
+       <Button onClick={closeModal} variant="close"/>
+       {children}
+      </div>
     </div>
   );
 }
