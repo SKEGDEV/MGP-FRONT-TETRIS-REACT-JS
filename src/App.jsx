@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react'
 import { GlobalStateContext } from './components/state/State';
 import NavBar from './components/nav/Nav';
+import GameBoard from './components/GameBoard/GameBoard';
 import 'animate.css'
 
 
@@ -11,6 +12,7 @@ function App() {
   return (
     <> 
      <NavBar/>
+     <GameBoard/>
     </>
   )
 }
