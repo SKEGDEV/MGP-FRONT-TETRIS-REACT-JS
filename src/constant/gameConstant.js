@@ -45,7 +45,7 @@ export const Pieces = {
       [2,2,2],
       [2,0,0]
     ],
-    color:'#FFA500',
+    color:'#0000FF',
     name:'J_tetromino'
   },
   6:{

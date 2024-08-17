@@ -1,65 +1,89 @@
 import styles from './GameBoard.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import { Pieces } from '../../constant/gameConstant';
+import { GlobalStateContext } from '../state/State';
 
 const GameBoard = ()=>{
   const boardSizeRef = useRef(null);
-  const [board, setBoard] = useState([]);
+  const {state, dispatch} = useContext(GlobalStateContext); 
   const [startX, setStartX] = useState(0);
-  const [currentPiece, setCurrentPiece] = useState({});
-  let boardT = [];
 
   const drawNewPiece = (array, start)=>{
-    let newBoard = array || board;
-    const randomIndex = Math.floor(Math.random()*7);
-    const piece = Pieces[randomIndex]
+    let newBoard = array || state.game.board;
+    const current = state.game.nextPiece;
+    const next = Math.floor(Math.random()*7);
+    const piece = Pieces[current];
     let boardX = start || startX;
     let boardY = 0;
+    let counter = 0;
     for(let y = 0; y < 2; y++){
       for(let x = 0; x < 3; x++){
-	newBoard[boardY][boardX] = piece.shape[y][x]
+	newBoard[boardY][boardX] = piece.shape[y][x];
+	counter += piece.shape[y][x] == 2 ? 1 : 0;
+	if(counter == 1){
+	  dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
+	}
 	boardX++;
       }
       boardY++;
       boardX = start||startX;
     }
-    setBoard(newBoard); 
-    setCurrentPiece(piece);
+    dispatch({type:'SET_BOARD', payload:newBoard});
+    dispatch({type:'SET_SHAPES', payload:{current:current, next:next}});
   }
 
   const moveLeft = ()=>{
-    let x = findCurrentPositionShapeX();
-    let y = findCurrentPositionShapeY();
+    let x = state.game.currentX; 
+    let y = state.game.currentY;
     movePiece((parseInt(x)-1),(parseInt(y)));
   }
 
   const moveRight = ()=>{
-    let x = findCurrentPositionShapeX();
-    let y = findCurrentPositionShapeY();
+    let x = state.game.currentX; 
+    let y = state.game.currentY;
     movePiece((parseInt(x)+1),(parseInt(y)));
   }
 
+  const moveDown = ()=>{
+    let x = findCurrentPositionShapeX();
+    let y = findCurrentPositionShapeY();
+    movePiece((parseInt(x)),(parseInt(y)+1));
+  }
+
+  const moveUp = ()=>{
+    let x = findCurrentPositionShapeX();
+    let y = findCurrentPositionShapeY();
+    movePiece((parseInt(x)),(parseInt(y)-1));
+  }
+
+
   const movePiece = (boardX,boardY)=>{
-    let newBoard = board.map(d=>d.map(value => (value == 2 ? 0 : value)));
+    let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value)));
+    const currentPiece = Pieces[state.game.currentPiece]
     const backupX = boardX;
+    let counter = 0;
     for(let y = 0; y < 2; y++){
       for(let x = 0; x < 3; x++){
 	newBoard[boardY][boardX] = currentPiece.shape[y][x]
+	counter += currentPiece.shape[y][x] == 2 ? 1 : 0;
+	if(counter == 1){
+	  dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
+	}
 	boardX++;
       }
       boardY++;
       boardX = backupX;
     }
-    setBoard(newBoard);
+    dispatch({type:'SET_BOARD', payload:newBoard});
   }
 
   const findCurrentPositionShapeY = ()=>{
-    return board.findIndex(element => element.find(element => element == 2));
+    return state.game.board.findIndex(element => element.find(element => element == 2));
   }
 
   const findCurrentPositionShapeX = ()=>{
     const positionY = findCurrentPositionShapeY();
-    return board[positionY].findIndex(element => element == 2);
+    return state.game.board[positionY].findIndex(element => element == 2);
   }
 
   const createBoard = (width, height)=>{
@@ -86,68 +110,111 @@ const GameBoard = ()=>{
     }
   },[]);
 
-  document.addEventListener('keydown', (event)=>{
-    switch(event.key){
-      case 'ArrowLeft':
-	moveLeft();
-	break;
-      case 'ArrowRight':
-	moveRight();
-	break;
+  const handleKey = (event)=>{
+    console.log(event.key);
+    if(event.key === 'ArrowLeft'){
+      moveLeft();
     }
-  });
+    if(event.key === 'ArrowRight'){
+      moveRight();
+    }
+    if(event.key === 'ArrowUp'){
+      moveUp();
+    }
+    if(event.key === 'ArrowDown'){
+      moveDown();
+    }
+  }
 
   return(
-    <div className={styles.container}>
-      <div className={styles.statistics_container}>
-        <h3>{`A-TYPE`}</h3>
-        <div className={styles.statistics}>
-          <h3>{`STATISTICS`}</h3>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
+    <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}>
+      <StatisticsL/>
       <div className={styles.board} ref={boardSizeRef}> 
-       {board.map((d, index)=>(
+       {state.game.board.map((d, index)=>(
 	 <div key={index} style={{width:"100%", display:"flex", flexDirection:"row"}}>
 	 {d.map((d, index)=>(
-	   <div key={index} style={{width:"20px", height:"20px", backgroundColor:`${d == 1? 'red': d== 2 ? 'white':''}`, border:"1px solid black"}}>
+	   <div key={index} style={{width:"20px", height:"20px", backgroundColor:`${d == 1? 'white': d== 2 ? Pieces[state.game.currentPiece].color:''}`, border:"1px solid black"}}>
 	   </div>
 	 ))}
 	 </div>
        ))}
       </div>
-      <div className={styles.play_container}>
-        <div className={styles.player_container}>
-          <div className={styles.player_info}>
-            <h3>{`PLAYER`}</h3>
-            <h4>{`TEST`}</h4>
-          </div>
-          <div className={styles.player_info}>
-            <h3>{`TOP`}</h3>
-            <h4>{`000000`}</h4>
-          </div>
-          <div className={styles.player_info}>
-            <h3>{`SCORE`}</h3>
-            <h4>{`383888`}</h4>
-          </div>
-        </div>
-        <div className={styles.next_container}>
-          <h4>{`NEXT`}</h4>
-          <span></span>
-        </div>
-        <div className={styles.level_container}>
-          <h3>{`LEVEL`}</h3>
-          <h4>{`1`}</h4>
-        </div>
-      </div>
+      <StatisticsR/>
     </div> 
   );
 }
 
+const StatisticsL = ()=>{
+  const {state, dispatch} = useContext(GlobalStateContext);
+
+  return(
+    <div className={styles.statistics_container}>
+      <h3>{`A-TYPE`}</h3>
+      <div className={styles.statistics}>
+        <h3>{`STATISTICS`}</h3>
+      </div>
+      <Shape index={0} points={state.game.shapeStatistics.I_tetromino}/>
+      <Shape index={1} points={state.game.shapeStatistics.O_tetromino}/>
+      <Shape index={2} points={state.game.shapeStatistics.T_tetromino}/>
+      <Shape index={3} points={state.game.shapeStatistics.S_tetromino}/>
+      <Shape index={4} points={state.game.shapeStatistics.Z_tetromino}/>
+      <Shape index={5} points={state.game.shapeStatistics.J_tetromino}/>
+      <Shape index={6} points={state.game.shapeStatistics.L_tetromino}/>
+    </div>
+  );
+}
+
+const Shape = (props)=>{
+  
+  return(
+    <div className={styles.shape} style={{marginLeft:`${props.points == -1 ? '2dvh':''}`}}>
+    <div style={{width:`${props.points == -1 ? '100%': '80%'}`}}>
+      {Pieces[props.index].shape.map((y,index)=>(
+	<div key={index} style={{width:"50%", display:"flex", flexDirection:"row"}}>
+	{y.map((x, index)=>(
+	  <div key={index} style={{width:"10px", height:"10px", backgroundColor:`${x == 2? Pieces[props.index].color : ''}`, border:`${x == 2? '1px solid black' : ''}`}}></div>
+	))}
+	</div>
+      ))}
+  </div>
+  {props.points != -1 ?
+    <div style={{width:"20%"}}>
+     <p>{props.points}</p>   
+    </div>:<></>
+  }
+   </div>
+  );
+}
+
+const StatisticsR = ()=>{
+  const {state, dispatch} = useContext(GlobalStateContext);
+  return(
+    <div className={styles.play_container}>
+      <div className={styles.player_container}>
+        <div className={styles.player_info}>
+          <h3>{`PLAYER`}</h3>
+          <h4>{state?.currentPlayer?.name}</h4>
+        </div>
+        <div className={styles.player_info}>
+          <h3>{`TOP`}</h3>
+          <h4>{state?.currentPlayer?.topPoints}</h4>
+        </div>
+        <div className={styles.player_info}>
+          <h3>{`SCORE`}</h3>
+          <h4>{state?.game?.score}</h4>
+        </div>
+      </div>
+      <div className={styles.next_container}>
+        <h4>{`NEXT`}</h4>
+        <div><Shape index={state?.game?.nextPiece} points={-1}/></div>
+      </div>
+      <div className={styles.level_container}>
+        <h3>{`LEVEL`}</h3>
+        <h4>{state?.game?.level}</h4>
+      </div>
+    </div>
+  );
+}
+
 export default GameBoard;
+

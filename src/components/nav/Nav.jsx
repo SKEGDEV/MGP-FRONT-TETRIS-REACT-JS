@@ -50,7 +50,7 @@ const ModalAbout = (props)=>{
             
            </p>
          </div>
-         <div style={{marginBottom:"3dvh"}}><iframe width="560" height="315" src="https://www.youtube.com/embed/6hzrDeceEKc" frameborder="0"></iframe></div>
+         <div style={{marginBottom:"3dvh"}}><iframe width="560" height="315" src="https://www.youtube.com/embed/6hzrDeceEKc"></iframe></div>
          <div style={{marginBottom:"3dvh"}}>
            <p>{`If you like my work and want get to know more about me this it's my social information, it will be a pleasure to chat with you`}</p>
          </div>
