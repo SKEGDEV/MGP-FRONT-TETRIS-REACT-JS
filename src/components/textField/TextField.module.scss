@@ -12,6 +12,7 @@ $c_letter: #ffffff;
     background-color: transparent;
     color: $c_letter;
     font-size: 18px;
+    text-align: center;
     &::placeholder{
       color: $c_letter;
     }
