@@ -2,14 +2,18 @@ import logo from '../../assets/logo.png';
 import styles from './Nav.module.scss';
 import { GrProjects } from "react-icons/gr";
 import { MdOutlineDeveloperMode, MdVideogameAsset, MdMore } from "react-icons/md";
+import { IoPersonAddSharp } from "react-icons/io5";
 import Modal from '../modal/Modal';
 import LayoutModal from '../modalLayout/Layout';
 import Social from '../SocialBottom/Social';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { GlobalStateContext } from '../state/State';
 
 const NavBar = ()=>{
   const [modalAbout, setModalAbout] = useState(false);
   const [modalContact, setModalContact] = useState(false);
+  const {state, dispatch} = useContext(GlobalStateContext);
+  const [playerMenu, setPlayerMenu] = useState(false);
 
   return(
     <div className={styles.nav}>
@@ -20,7 +24,13 @@ const NavBar = ()=>{
       <ul className={styles.nav_right}>
         <li onClick={()=>{setModalAbout(true);}}><button><GrProjects/>{`About Project`}</button></li>
         <li onClick={()=>{setModalContact(true);}}><button><MdOutlineDeveloperMode/>{`Contact With Developer`}</button></li>
-        <li><button><MdVideogameAsset/>{`Player`}</button></li>
+        <li>
+         <button onClick={()=>{setPlayerMenu(!playerMenu);}} className={`${playerMenu? styles.activate:''}`}><MdVideogameAsset/>{`Player`}</button>
+         <ul className={styles.players_menu} style={{display:`${playerMenu? 'block': 'none'}`}}>
+           {state.players.length > 0 ? <li><button></button></li>:<p>{`Don't exist players please add a new player`}</p>} 
+           <li><button><IoPersonAddSharp/>{`Add New Player`}</button></li>
+         </ul>
+        </li>
         <li><button><MdMore/> {`For More`}</button></li>
       </ul>
     </div>

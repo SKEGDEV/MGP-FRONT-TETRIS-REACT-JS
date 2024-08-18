@@ -53,6 +53,17 @@ $c_letter: #ffffff;
 	  transform: translateY(.5dvh);
 	}
       }
+      .players_menu{
+        position: absolute;
+        background-color: $bg_contrast;
+        margin-top: 2dvh;
+        p{
+          color: $c_letter;
+          font-size: 1.5dvh;
+          padding: 2dvh;
+          text-align: center;
+        } 
+      }
     }
   }
 }

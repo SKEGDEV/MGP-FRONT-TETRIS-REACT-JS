@@ -30,6 +30,18 @@ const reducer = (state, action) =>{
 	  nextPiece: action.payload.next
 	}
       }
+    case 'CREATE_PLAYER':
+      let newPlayers = state.players;
+      newPlayers.push(action.payload);
+      return{
+	...state,
+	players:newPlayers
+      }
+    case 'SET_PLAYER':
+      return{
+	...state,
+	currentPlayer:action.payload
+      }
     default:
       return state;
   }
