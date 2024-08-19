@@ -15,14 +15,10 @@ const GameBoard = ()=>{
     const piece = Pieces[current];
     let boardX = start || startX;
     let boardY = 0;
-    let counter = 0;
+    dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
     for(let y = 0; y < 2; y++){
       for(let x = 0; x < 3; x++){
 	newBoard[boardY][boardX] = piece.shape[y][x];
-	counter += piece.shape[y][x] == 2 ? 1 : 0;
-	if(counter == 1){
-	  dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
-	}
 	boardX++;
       }
       boardY++;
@@ -32,58 +28,22 @@ const GameBoard = ()=>{
     dispatch({type:'SET_SHAPES', payload:{current:current, next:next}});
   }
 
-  const moveLeft = ()=>{
-    let x = state.game.currentX; 
-    let y = state.game.currentY;
-    movePiece((parseInt(x)-1),(parseInt(y)));
-  }
-
-  const moveRight = ()=>{
-    let x = state.game.currentX; 
-    let y = state.game.currentY;
-    movePiece((parseInt(x)+1),(parseInt(y)));
-  }
-
-  const moveDown = ()=>{
-    let x = findCurrentPositionShapeX();
-    let y = findCurrentPositionShapeY();
-    movePiece((parseInt(x)),(parseInt(y)+1));
-  }
-
-  const moveUp = ()=>{
-    let x = findCurrentPositionShapeX();
-    let y = findCurrentPositionShapeY();
-    movePiece((parseInt(x)),(parseInt(y)-1));
-  }
-
-
-  const movePiece = (boardX,boardY)=>{
+  const movePiece = (addX, addY)=>{
+    let boardX = state.game.currentX + addX;
+    let boardY = state.game.currentY + addY;
     let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value)));
     const currentPiece = Pieces[state.game.currentPiece]
     const backupX = boardX;
-    let counter = 0;
+    dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}}); 
     for(let y = 0; y < 2; y++){
       for(let x = 0; x < 3; x++){
 	newBoard[boardY][boardX] = currentPiece.shape[y][x]
-	counter += currentPiece.shape[y][x] == 2 ? 1 : 0;
-	if(counter == 1){
-	  dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
-	}
 	boardX++;
       }
       boardY++;
       boardX = backupX;
     }
     dispatch({type:'SET_BOARD', payload:newBoard});
-  }
-
-  const findCurrentPositionShapeY = ()=>{
-    return state.game.board.findIndex(element => element.find(element => element == 2));
-  }
-
-  const findCurrentPositionShapeX = ()=>{
-    const positionY = findCurrentPositionShapeY();
-    return state.game.board[positionY].findIndex(element => element == 2);
   }
 
   const createBoard = (width, height)=>{
@@ -113,16 +73,16 @@ const GameBoard = ()=>{
   const handleKey = (event)=>{
     console.log(event.key);
     if(event.key === 'ArrowLeft'){
-      moveLeft();
+      movePiece(-1, 0);
     }
     if(event.key === 'ArrowRight'){
-      moveRight();
+      movePiece(1, 0);
     }
     if(event.key === 'ArrowUp'){
-      moveUp();
+      movePiece(0, -1);
     }
     if(event.key === 'ArrowDown'){
-      moveDown();
+      movePiece(0, 1);
     }
   }
 

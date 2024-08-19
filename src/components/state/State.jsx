@@ -31,11 +31,9 @@ const reducer = (state, action) =>{
 	}
       }
     case 'CREATE_PLAYER':
-      let newPlayers = state.players;
-      newPlayers.push(action.payload);
       return{
 	...state,
-	players:newPlayers
+	players:state.players.push(action.payload)
       }
     case 'SET_PLAYER':
       return{

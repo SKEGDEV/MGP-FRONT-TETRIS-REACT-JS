@@ -32,7 +32,11 @@ const NavBar = ()=>{
         <li>
          <button onClick={()=>{setPlayerMenu(!playerMenu);}} className={`${playerMenu? styles.activate:''}`}><MdVideogameAsset/>{`Player`}</button>
          <ul className={styles.players_menu} style={{display:`${playerMenu? 'block': 'none'}`}}>
-           {state.players.length > 0 ? <li><button></button></li>:<p>{`Don't exist players please add a new player`}</p>} 
+           {state.players.length > 0 ?
+	     <>
+	      {state.players.map((d,index)=>(<li key={index}><button>{d.p_name}</button></li>))}
+	     </>
+	     :<p>{`Don't exist players please add a new player`}</p>} 
            <li onClick={()=>{setModalPlayer(true);}}><button><IoPersonAddSharp/>{`Add New Player`}</button></li>
          </ul>
         </li>
@@ -113,24 +117,29 @@ const ModalCreatePlayer = (props)=>{
   }
 
   const onClick = ()=>{ 
-    if(existPlayer()){
+    if(existPlayer() || name.length === 0){
       return;
     }
-    dispatch({type:'CREATE_PLAYER', payload:{name:name, topPoints:0}});
+    dispatch({type:'CREATE_PLAYER', payload:{p_name:name, topPoints:0}});
     props.modalState(false);
   }
 
   const Notify = ()=>{
     return(
-      <div className={styles.notify}>
-        {isExist ? <IoIosCloseCircle/>:<FaCheckCircle/>}
+      <>
+      {name.length != 0?  
+      <div style={{width:'100%', padding:'2dvh', display:'flex', flexDirection:'row', justifyContent:'center', backgroundColor:`${isExist ? '#DC3545': '#28A745'}`,
+                   marginBottom:'2dvh', borderRadius:'10px'}}>
+        {isExist ? <IoIosCloseCircle style={{color:'white', fontSize:'3dvh', marginRight:'1dvh'}}/>:
+	  <FaCheckCircle style={{color:'white', fontSize:'3dvh', marginRight:'1dvh'}}/>}
         <p>{isExist ? 'This player is already exist please enter another name':'This player is available'}</p>
       </div>
+	:<></>}
+      </>
     );
   }
 
-  
-
+ 
   return(
     <Modal isOpen={props.isOpen} modalState={props.modalState}>
       <LayoutModal variant='operation' btnTittle='Add Player' btnOnClick={onClick}>
