@@ -7,6 +7,7 @@ const GameBoard = ()=>{
   const boardSizeRef = useRef(null);
   const {state, dispatch} = useContext(GlobalStateContext); 
   const [startX, setStartX] = useState(0);
+  const [rotation, setRotation] = useState(0);
 
   const drawNewPiece = (array, start)=>{
     let newBoard = array || state.game.board;
@@ -18,32 +19,78 @@ const GameBoard = ()=>{
     dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
     for(let y = 0; y < 2; y++){
       for(let x = 0; x < 3; x++){
-	newBoard[boardY][boardX] = piece.shape[y][x];
-	boardX++;
+        newBoard[boardY][boardX] = piece.shape[y][x];
+        boardX++;
       }
       boardY++;
       boardX = start||startX;
     }
+
     dispatch({type:'SET_BOARD', payload:newBoard});
     dispatch({type:'SET_SHAPES', payload:{current:current, next:next}});
   }
 
-  const movePiece = (addX, addY)=>{
+  const movePiece = (addX, addY, newRotation)=>{
     let boardX = state.game.currentX + addX;
     let boardY = state.game.currentY + addY;
     let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value)));
+    let rotatePosition = newRotation || rotation;
     const currentPiece = Pieces[state.game.currentPiece]
-    const backupX = boardX;
     dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}}); 
-    for(let y = 0; y < 2; y++){
-      for(let x = 0; x < 3; x++){
-	newBoard[boardY][boardX] = currentPiece.shape[y][x]
-	boardX++;
+
+    let initX = rotatePosition == 2 ? 2 : 
+                  rotatePosition == 3 ? 1 : 0;
+
+    const initY = rotatePosition == 2 ? 1 : 
+                  rotatePosition == 3 ? 2 : 0;
+
+    let limitX = rotatePosition == 0 ? 3: 
+                   rotatePosition == 1 ? 2: 0;
+
+    const limitY = rotatePosition == 0 ? 2: 
+                   rotatePosition == 1 ? 3: 0;  
+
+    const isSpecial = (currentPiece.name === 'Z_tetromino' || currentPiece.name === 'S_tetromino');    
+    
+    if(rotatePosition > 1 && isSpecial){
+      initX = 0;
+      limitX = rotatePosition == 2 ? 3:2;
+      for(let y = initY; y >= limitY; y--){
+	for(let x = initX; x < limitX; x++){
+	  newBoard[boardY][boardX] = currentPiece.shape[rotatePosition == 2 ? y:x][rotatePosition == 2 ? x:y]
+	  boardX++;
+	}
+	boardY++;
+	boardX = state.game.currentX + addX;
       }
-      boardY++;
-      boardX = backupX;
+    }
+    else if(rotatePosition > 1 && !isSpecial){
+      for(let y = initY; y >= limitY; y--){
+	for(let x = initX; x >= limitX; x--){
+	  newBoard[boardY][boardX] = currentPiece.shape[rotatePosition == 2 ? y:x][rotatePosition == 2 ? x:y]
+	  boardX++;
+	}
+	boardY++;
+	boardX = state.game.currentX + addX;
+      }
+    }else{
+      for(let y = initY; y < limitY; y++){
+	for(let x = initX; x < limitX; x++){
+	  newBoard[boardY][boardX] = currentPiece.shape[rotatePosition == 0 ? y:x][rotatePosition == 0 ? x:y]
+	  boardX++;
+	}
+	boardY++;
+	boardX = state.game.currentX + addX;
+      }
     }
     dispatch({type:'SET_BOARD', payload:newBoard});
+  }
+
+  const rotatePiece = ()=>{
+    console.log(rotation);
+    const newRotation = rotation == 3 ? 0 : rotation + 1;
+    setRotation(newRotation);
+    movePiece(0,0, newRotation);
   }
 
   const createBoard = (width, height)=>{
@@ -71,7 +118,6 @@ const GameBoard = ()=>{
   },[]);
 
   const handleKey = (event)=>{
-    console.log(event.key);
     if(event.key === 'ArrowLeft'){
       movePiece(-1, 0);
     }
@@ -79,7 +125,7 @@ const GameBoard = ()=>{
       movePiece(1, 0);
     }
     if(event.key === 'ArrowUp'){
-      movePiece(0, -1);
+      rotatePiece();
     }
     if(event.key === 'ArrowDown'){
       movePiece(0, 1);
@@ -132,7 +178,7 @@ const Shape = (props)=>{
       {Pieces[props.index].shape.map((y,index)=>(
 	<div key={index} style={{width:"50%", display:"flex", flexDirection:"row"}}>
 	{y.map((x, index)=>(
-	  <div key={index} style={{width:"10px", height:"10px", backgroundColor:`${x == 2? Pieces[props.index].color : ''}`, border:`${x == 2? '1px solid black' : ''}`}}></div>
+	  <div key={index} style={{width:"12px", height:"12px", backgroundColor:`${x == 2? Pieces[props.index].color : ''}`, border:`${x == 2? '1px solid black' : ''}`}}></div>
 	))}
 	</div>
       ))}
