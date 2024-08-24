@@ -115,6 +115,7 @@ const GameBoard = ()=>{
       let height = Math.floor(parseInt(offsetHeight) / 20) - 1;
       createBoard(width, height);
     }
+
   },[]);
 
   const handleKey = (event)=>{
