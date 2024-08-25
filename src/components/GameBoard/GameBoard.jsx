@@ -2,6 +2,7 @@ import styles from './GameBoard.module.scss';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { Pieces } from '../../constant/gameConstant';
 import { GlobalStateContext } from '../state/State';
+import { useInterval } from '../../hooks/useInterval';
 
 const GameBoard = ()=>{
   const boardSizeRef = useRef(null);
@@ -86,9 +87,13 @@ const GameBoard = ()=>{
     dispatch({type:'SET_BOARD', payload:newBoard});
   }
 
-  const rotatePiece = ()=>{
-    console.log(rotation);
-    const newRotation = rotation == 3 ? 0 : rotation + 1;
+  const rotatePiece = ()=>{  
+    const isSimple = (Pieces[state.game.currentPiece].name == 'I_tetromino');
+    const isDontRotate = (Pieces[state.game.currentPiece].name == 'O_tetromino');
+    let newRotation = isDontRotate ? 0:
+                      (isSimple && rotation == 1) ? 0:
+                      rotation == 3 ? 0 :
+                      rotation + 1; 
     setRotation(newRotation);
     movePiece(0,0, newRotation);
   }
@@ -108,6 +113,17 @@ const GameBoard = ()=>{
     drawNewPiece(arrayBoard, start);
   }
 
+  const solidifyPiece = ()=>{
+    /*
+     * solidify case
+     * 1. when the piece is in the end of board Y
+     * 2. when the piece colision with another part of solid board
+     * */
+  }
+
+  const checkColition = ()=>{
+
+  }
   useEffect(()=>{
     if(boardSizeRef.current){
       const {offsetWidth, offsetHeight } = boardSizeRef.current;
@@ -115,7 +131,6 @@ const GameBoard = ()=>{
       let height = Math.floor(parseInt(offsetHeight) / 20) - 1;
       createBoard(width, height);
     }
-
   },[]);
 
   const handleKey = (event)=>{
@@ -132,6 +147,10 @@ const GameBoard = ()=>{
       movePiece(0, 1);
     }
   }
+
+  useInterval(()=>{
+    //movePiece(0,1);
+  },1500)
 
   return(
     <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}>
