@@ -35,7 +35,10 @@ const reducer = (state, action) =>{
 	...state,
 	game:{
 	  ...state.game,
-	  currentX:state.game.currentX + action.payload
+	  shapeStatistics:{
+	    ...state.game.shapeStatistics,
+	    [action.payload]:state.game.shapeStatistics[action.payload]+1
+	  }
 	}
       }
     case 'CREATE_PLAYER':

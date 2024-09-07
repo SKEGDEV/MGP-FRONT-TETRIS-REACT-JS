@@ -34,6 +34,7 @@ const GameBoard = ()=>{
   useEffect(()=>{
     
     if(!existShape() && state.game.board.length > 0){
+      setRotation(0);
       let newBoard = state.game.board;
       const current = state.game.nextPiece;
       const next = Math.floor(Math.random()*7);
@@ -42,6 +43,7 @@ const GameBoard = ()=>{
       let boardY = 0;
       dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
       dispatch({type:'SET_SHAPES', payload:{current:current, next:next}});
+      dispatch({type:'ADD_STATISTICS_SHAPES', payload:piece.name});
       for(let y = 0; y < piece.dimensions[0]; y++){
 	for(let x = 0; x < piece.dimensions[1]; x++){
 	  newBoard[boardY][boardX] = piece.shape[y][x];
@@ -98,6 +100,20 @@ const GameBoard = ()=>{
       }
     }
     dispatch({type:'SET_BOARD', payload:newBoard});
+    checkColision(state.game.currentY + addY, piece);
+  }
+
+  const checkColision = (newY, piece)=>{
+    const boardHeigh = state.game.board.length-1;
+    const currentPositionShape = newY + ((rotation == 1 || rotation == 3)? piece.dimensions[1] - 1: piece.dimensions[0]-1);
+    if(boardHeigh == currentPositionShape){
+      solidifyShape();
+    }
+  }
+
+  const solidifyShape = ()=>{
+    const newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 1 : value)));
+    dispatch({type:'SET_BOARD', payload:newBoard});
   }
 
   const rotatePiece = ()=>{  
@@ -136,8 +152,8 @@ const GameBoard = ()=>{
   }
 
   useInterval(()=>{
-    //moveShape(0,1);
-  },1500)
+    moveShape(0,1);
+  },1000)
 
   return(
     <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}>
