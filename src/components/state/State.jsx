@@ -30,10 +30,19 @@ const reducer = (state, action) =>{
 	  nextPiece: action.payload.next
 	}
       }
-    case 'CREATE_PLAYER':
+    case 'ADD_STATISTICS_SHAPES':
       return{
 	...state,
-	players:state.players.push(action.payload)
+	game:{
+	  ...state.game,
+	  currentX:state.game.currentX + action.payload
+	}
+      }
+    case 'CREATE_PLAYER':
+      let newArray = [...state.players, action.payload]
+      return{
+	...state,
+	players:newArray
       }
     case 'SET_PLAYER':
       return{

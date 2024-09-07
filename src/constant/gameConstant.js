@@ -2,58 +2,64 @@
 export const Pieces = {
   0:{
     shape:[
-      [2,2,2],
-      [3,3,3]
+      [2,2,2] 
     ],
     color:'#00FFFF',
-    name:'I_tetromino'
+    name:'I_tetromino',
+    dimensions:[1,3]
   },
   1:{
     shape:[
-      [2,2,3],
-      [2,2,3]
+      [2,2],
+      [2,2]
     ],
     color:'#FFFF00',
-    name:'O_tetromino'
+    name:'O_tetromino',
+    dimensions:[2,2]
   },
   2:{
     shape:[
       [2,2,2],
-      [3,2,3]
+      [0,2,0]
     ],
     color:'#800080',
-    name:'T_tetromino'
+    name:'T_tetromino',
+    dimensions:[2,3]
   },
   3:{
     shape:[
-      [3,2,2],
-      [2,2,3]
+      [0,2,2],
+      [2,2,0]
     ],
     color:'#00FF00',
-    name:'S_tetromino'
+    name:'S_tetromino',
+    dimensions:[2,3]
   },
   4:{
     shape:[
-      [2,2,3],
-      [3,2,2]
+      [2,2,0],
+      [0,2,2]
     ],
     color:'#FF0000',
-    name:'Z_tetromino'
+    name:'Z_tetromino',
+    dimensions:[2,3]
   },
   5:{
     shape:[
       [2,2,2],
-      [2,3,3]
+      [2,0,0]
     ],
     color:'#0000FF',
-    name:'J_tetromino'
+    name:'J_tetromino',
+    dimensions:[2,3]
   },
   6:{
     shape:[
       [2,2,2],
-      [3,3,2]
+      [0,0,2]
     ],
     color:'#FFA500',
-    name:'L_tetromino'
+    name:'L_tetromino',
+    dimensions:[2,3]
   },
 }

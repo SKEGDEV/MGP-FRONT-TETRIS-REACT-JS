@@ -10,97 +10,11 @@ const GameBoard = ()=>{
   const [startX, setStartX] = useState(0);
   const [rotation, setRotation] = useState(0);
 
-  const drawNewPiece = (array, start)=>{
-    let newBoard = array || state.game.board;
-    const current = state.game.nextPiece;
-    const next = Math.floor(Math.random()*7);
-    const piece = Pieces[current];
-    let boardX = start || startX;
-    let boardY = 0;
-    dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
-    for(let y = 0; y < 2; y++){
-      for(let x = 0; x < 3; x++){
-        newBoard[boardY][boardX] = piece.shape[y][x];
-        boardX++;
-      }
-      boardY++;
-      boardX = start||startX;
-    }
-
-    dispatch({type:'SET_BOARD', payload:newBoard});
-    dispatch({type:'SET_SHAPES', payload:{current:current, next:next}});
-  }
-
-  const movePiece = (addX, addY, newRotation)=>{
-    let boardX = state.game.currentX + addX;
-    let boardY = state.game.currentY + addY;
-    let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value)));
-    let rotatePosition = newRotation || rotation;
-    const currentPiece = Pieces[state.game.currentPiece]
-    dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}}); 
-
-    let initX = rotatePosition == 2 ? 2 : 
-                  rotatePosition == 3 ? 1 : 0;
-
-    const initY = rotatePosition == 2 ? 1 : 
-                  rotatePosition == 3 ? 2 : 0;
-
-    let limitX = rotatePosition == 0 ? 3: 
-                   rotatePosition == 1 ? 2: 0;
-
-    const limitY = rotatePosition == 0 ? 2: 
-                   rotatePosition == 1 ? 3: 0;  
-
-    const isSpecial = (currentPiece.name === 'Z_tetromino' || currentPiece.name === 'S_tetromino');    
-    
-    if(rotatePosition > 1 && isSpecial){
-      initX = 0;
-      limitX = rotatePosition == 2 ? 3:2;
-      for(let y = initY; y >= limitY; y--){
-	for(let x = initX; x < limitX; x++){
-	  newBoard[boardY][boardX] = currentPiece.shape[rotatePosition == 2 ? y:x][rotatePosition == 2 ? x:y]
-	  boardX++;
-	}
-	boardY++;
-	boardX = state.game.currentX + addX;
-      }
-    }
-    else if(rotatePosition > 1 && !isSpecial){
-      for(let y = initY; y >= limitY; y--){
-	for(let x = initX; x >= limitX; x--){
-	  newBoard[boardY][boardX] = currentPiece.shape[rotatePosition == 2 ? y:x][rotatePosition == 2 ? x:y]
-	  boardX++;
-	}
-	boardY++;
-	boardX = state.game.currentX + addX;
-      }
-    }else{
-      for(let y = initY; y < limitY; y++){
-	for(let x = initX; x < limitX; x++){
-	  newBoard[boardY][boardX] = currentPiece.shape[rotatePosition == 0 ? y:x][rotatePosition == 0 ? x:y]
-	  boardX++;
-	}
-	boardY++;
-	boardX = state.game.currentX + addX;
-      }
-    }
-    dispatch({type:'SET_BOARD', payload:newBoard});
-  }
-
-  const rotatePiece = ()=>{  
-    const isSimple = (Pieces[state.game.currentPiece].name == 'I_tetromino');
-    const isDontRotate = (Pieces[state.game.currentPiece].name == 'O_tetromino');
-    let newRotation = isDontRotate ? 0:
-                      (isSimple && rotation == 1) ? 0:
-                      rotation == 3 ? 0 :
-                      rotation + 1; 
-    setRotation(newRotation);
-    movePiece(0,0, newRotation);
-  }
-
   const createBoard = (width, height)=>{
     let arrayBoard = [];
     let arrayTemp = [];
+    let start = Math.floor(parseInt(width)/2); 
+    setStartX(start);
     for(let y = 1; y < height; y++){
       arrayTemp = [];
       for(let x = 1; x < width; x++ ){	
@@ -108,22 +22,89 @@ const GameBoard = ()=>{
       }
       arrayBoard.push(arrayTemp);
     } 
-    let start = Math.floor(parseInt(width)/2); 
-    setStartX(start);
-    drawNewPiece(arrayBoard, start);
+
+    dispatch({type:'SET_BOARD', payload:arrayBoard});
   }
 
-  const solidifyPiece = ()=>{
-    /*
-     * solidify case
-     * 1. when the piece is in the end of board Y
-     * 2. when the piece colision with another part of solid board
-     * */
+  const existShape = ()=>{
+    const index = state.game.board.findIndex(item => item.find(d => d == 2));
+    return index === -1 ? false:true;
   }
 
-  const checkColition = ()=>{
+  useEffect(()=>{
+    
+    if(!existShape() && state.game.board.length > 0){
+      let newBoard = state.game.board;
+      const current = state.game.nextPiece;
+      const next = Math.floor(Math.random()*7);
+      const piece = Pieces[current];
+      let boardX = startX;
+      let boardY = 0;
+      dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
+      dispatch({type:'SET_SHAPES', payload:{current:current, next:next}});
+      for(let y = 0; y < piece.dimensions[0]; y++){
+	for(let x = 0; x < piece.dimensions[1]; x++){
+	  newBoard[boardY][boardX] = piece.shape[y][x];
+	  boardX++;
+	}
+	boardY++;
+	boardX = startX;
+      }
+      dispatch({type:'SET_BOARD', payload:newBoard});
+    }
+  },[state.game.board]);
 
+  const moveShape = (addX, addY)=>{
+    const piece = Pieces[state.game.currentPiece];
+    let shapeX = rotation === 2 ? piece.dimensions[1]-1:
+                 rotation === 3 ? piece.dimensions[0]-1: 0;
+    let shapeY = rotation === 2 ? piece.dimensions[0]-1: 
+                 rotation === 3 ? piece.dimensions[1]-1: 0;
+    let limitX = rotation === 0 ? piece.dimensions[1]:
+                 rotation === 1 ? piece.dimensions[0]: 0;
+    let limitY = rotation === 0 ? piece.dimensions[0]:
+                 rotation === 1 ? piece.dimensions[1]: 0;
+    let boardX = state.game.currentX + addX; 
+    let boardY = state.game.currentY + addY;
+    dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
+    let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value))); 
+    
+
+    if(rotation >= 2){
+      while(shapeY >= limitY){
+	while(shapeX >= limitX){
+	  newBoard[boardY][boardX] = piece.shape[rotation === 2 ? shapeY:shapeX][rotation === 2 ? shapeX:shapeY];
+	  shapeX--;
+	  boardX++;
+	}
+	boardY++; 
+	boardX = state.game.currentX + addX;
+	shapeX = rotation === 2 ? piece.dimensions[1]-1:
+                 rotation === 3 ? piece.dimensions[0]-1: 0;
+	shapeY--;
+      }
+    }else{
+      while(shapeY < limitY){
+	while(shapeX < limitX){
+	  newBoard[boardY][boardX] = piece.shape[rotation === 0 ? shapeY:shapeX][rotation === 0 ? shapeX:shapeY];
+	  shapeX++;
+	  boardX++;
+	}
+	boardY++; 
+	boardX = state.game.currentX + addX;
+	shapeX = rotation === 2 ? piece.dimensions[1]:
+                 rotation === 3 ? piece.dimensions[0]: 0;
+	shapeY++;
+      }
+    }
+    dispatch({type:'SET_BOARD', payload:newBoard});
   }
+
+  const rotatePiece = ()=>{  
+    let newRotation = rotation === 3 ? 0 : rotation + 1; 
+    setRotation(newRotation);
+  }
+
   useEffect(()=>{
     if(boardSizeRef.current){
       const {offsetWidth, offsetHeight } = boardSizeRef.current;
@@ -133,23 +114,29 @@ const GameBoard = ()=>{
     }
   },[]);
 
+  useEffect(()=>{
+    if(existShape()){
+      moveShape(0, 0);
+    } 
+  },[rotation]);
+
   const handleKey = (event)=>{
     if(event.key === 'ArrowLeft'){
-      movePiece(-1, 0);
+      moveShape(-1, 0);
     }
     if(event.key === 'ArrowRight'){
-      movePiece(1, 0);
+      moveShape(1, 0);
     }
     if(event.key === 'ArrowUp'){
       rotatePiece();
     }
     if(event.key === 'ArrowDown'){
-      movePiece(0, 1);
+      moveShape(0, 1);
     }
   }
 
   useInterval(()=>{
-    //movePiece(0,1);
+    //moveShape(0,1);
   },1500)
 
   return(

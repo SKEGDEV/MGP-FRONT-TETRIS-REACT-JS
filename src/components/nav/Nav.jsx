@@ -103,7 +103,6 @@ const ModalCreatePlayer = (props)=>{
   const [isExist, setIsExist] = useState(true);
 
   const onChange = (e)=>{
-    setIsExist(existPlayer());
     if(e.target.value.length <= 4){
       setName(e.target.value.toUpperCase());
     }
@@ -111,17 +110,19 @@ const ModalCreatePlayer = (props)=>{
   }
 
   const existPlayer = ()=>{
-    let searchExp = new RegExp(`${name}.*`, "i");
-    const findText = state.players.filter(item => searchExp.test(item.name))?.name || '';
-    return findText == '' ? false:true;
+    const findPlayer = state.players.find(item => item.p_name == name) || {};
+    console.log(findPlayer);
+    return Object.keys(findPlayer).length == 0 ? false:true;
   }
 
   const onClick = ()=>{ 
     if(existPlayer() || name.length === 0){
+      setIsExist(existPlayer());
       return;
     }
     dispatch({type:'CREATE_PLAYER', payload:{p_name:name, topPoints:0}});
     props.modalState(false);
+    setName('');
   }
 
   const Notify = ()=>{
