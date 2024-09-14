@@ -54,6 +54,12 @@ const GameBoard = ()=>{
       }
       dispatch({type:'SET_BOARD', payload:newBoard});
     }
+    if(existShape() && state.game.board.length > 0){
+      try{
+	checkColision();
+      }catch(ex){} 
+    }
+    
   },[state.game.board]);
 
   const moveShape = (addX, addY)=>{
@@ -70,12 +76,12 @@ const GameBoard = ()=>{
     let boardY = state.game.currentY + addY;
     dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
     let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value))); 
-    
-
+    let value = 0;
     if(rotation >= 2){
       while(shapeY >= limitY){
 	while(shapeX >= limitX){
-	  newBoard[boardY][boardX] = piece.shape[rotation === 2 ? shapeY:shapeX][rotation === 2 ? shapeX:shapeY];
+	  value = piece.shape[rotation === 2 ? shapeY:shapeX][rotation === 2 ? shapeX:shapeY];
+	  newBoard[boardY][boardX] =(newBoard[boardY][boardX] == 1 && value == 0)? 1: value;
 	  shapeX--;
 	  boardX++;
 	}
@@ -88,7 +94,8 @@ const GameBoard = ()=>{
     }else{
       while(shapeY < limitY){
 	while(shapeX < limitX){
-	  newBoard[boardY][boardX] = piece.shape[rotation === 0 ? shapeY:shapeX][rotation === 0 ? shapeX:shapeY];
+	  value = piece.shape[rotation === 0 ? shapeY:shapeX][rotation === 0 ? shapeX:shapeY];
+	  newBoard[boardY][boardX] = (newBoard[boardY][boardX] == 1 && value == 0)? 1: value;
 	  shapeX++;
 	  boardX++;
 	}
@@ -100,14 +107,25 @@ const GameBoard = ()=>{
       }
     }
     dispatch({type:'SET_BOARD', payload:newBoard});
-    checkColision(state.game.currentY + addY, piece);
   }
 
-  const checkColision = (newY, piece)=>{
+  const checkColision = ()=>{
     const boardHeigh = state.game.board.length-1;
-    const currentPositionShape = newY + ((rotation == 1 || rotation == 3)? piece.dimensions[1] - 1: piece.dimensions[0]-1);
-    if(boardHeigh == currentPositionShape){
+    const piece = Pieces[state.game.currentPiece];
+    const currentPositionShapeY = state.game.currentY + ((rotation == 1 || rotation == 3)? piece.dimensions[1] - 1: piece.dimensions[0]-1);
+    const isTheEnd = (boardHeigh == currentPositionShapeY); 
+    if(isTheEnd){
       solidifyShape();
+    }  
+    if(!isTheEnd){
+      for(let i = 0; i < state.game.board.length; i++){
+	for(let j = 0; j < state.game.board[i].length; j++){
+	  if(state?.game?.board[i][j]==1  && state?.game?.board[i-1][j] == 2){
+	    solidifyShape();
+	    return;
+	  }
+	}
+      }
     }
   }
 
@@ -153,7 +171,7 @@ const GameBoard = ()=>{
 
   useInterval(()=>{
     moveShape(0,1);
-  },1000)
+  },700);
 
   return(
     <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}>
