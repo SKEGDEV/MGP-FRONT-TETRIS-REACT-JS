@@ -36,8 +36,8 @@ const GameBoard = ()=>{
     if(!existShape() && state.game.board.length > 0){
       setRotation(0);
       let newBoard = state.game.board;
-      const current = state.game.nextPiece;
-      const next = Math.floor(Math.random()*7);
+      let current = state.game.nextPiece;
+      let next = Math.floor(Math.random()*7);
       const piece = Pieces[current];
       let boardX = startX;
       let boardY = 0;
@@ -52,6 +52,12 @@ const GameBoard = ()=>{
 	boardY++;
 	boardX = startX;
       }
+      const isOnFirstLine = state.game.board[0].includes(1);
+      const isOnBotton = state.game.board[piece.dimensions[0]-1].slice(startX, startX + piece.dimensions[1]-1).includes(1);
+      if(isOnFirstLine || isOnBotton){
+	newBoard = newBoard.map(d=>d.map(value => ((value == 2 || value == 1) && 0)));
+	dispatch({type:'IS_GAME_OVER'});
+      } 
       dispatch({type:'SET_BOARD', payload:newBoard});
     }
     if(existShape() && state.game.board.length > 0){
@@ -64,6 +70,13 @@ const GameBoard = ()=>{
 
   const moveShape = (addX, addY)=>{
     const piece = Pieces[state.game.currentPiece];
+    if(state.game.currentX == 0 && addX < 0){
+      return;
+    }
+    const isTheEnd = state.game.currentX + ((rotation == 1 || rotation == 3)?piece.dimensions[0]:piece.dimensions[1]) == state.game.board[0].length;
+    if(isTheEnd && addX > 0){
+      return;
+    }
     let shapeX = rotation === 2 ? piece.dimensions[1]-1:
                  rotation === 3 ? piece.dimensions[0]-1: 0;
     let shapeY = rotation === 2 ? piece.dimensions[0]-1: 

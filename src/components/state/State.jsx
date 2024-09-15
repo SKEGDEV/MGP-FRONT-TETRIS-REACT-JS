@@ -52,6 +52,23 @@ const reducer = (state, action) =>{
 	...state,
 	currentPlayer:action.payload
       }
+    case 'IS_GAME_OVER':
+      return{
+	...state,
+	game:{
+	  ...state.game,
+	  score:0,
+	  shapeStatistics:{
+	    I_tetromino:0,
+	    O_tetromino:0,
+	    T_tetromino:0,
+	    S_tetromino:0,
+	    Z_tetromino:0,
+	    J_tetromino:0,
+	    L_tetromino:0
+	  } 
+	}
+      }
     default:
       return state;
   }
