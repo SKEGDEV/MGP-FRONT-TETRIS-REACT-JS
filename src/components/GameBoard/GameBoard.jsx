@@ -170,7 +170,7 @@ const GameBoard = ()=>{
   }
 
   useInterval(()=>{
-    //moveShape(0,1);
+    moveShape(0,1);
   },700);
 
   return(
