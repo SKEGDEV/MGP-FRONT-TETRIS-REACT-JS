@@ -131,8 +131,8 @@ const GameBoard = ()=>{
       solidifyShape();
     }  
     if(!isTheEnd){
-      for(let i = 0; i < state.game.board.length; i++){
-	for(let j = 0; j < state.game.board[i].length; j++){
+      for(let i = state.game.currentY; i < state.game.board.length; i++){
+	for(let j = state.game.currentX; j < state.game.board[i].length; j++){
 	  if(state?.game?.board[i][j]==1  && state?.game?.board[i-1][j] == 2){
 	    solidifyShape();
 	    return;
