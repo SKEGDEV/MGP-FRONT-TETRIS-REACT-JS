@@ -58,6 +58,7 @@ const reducer = (state, action) =>{
 	game:{
 	  ...state.game,
 	  score:0,
+	  level:1,
 	  shapeStatistics:{
 	    I_tetromino:0,
 	    O_tetromino:0,

@@ -30,7 +30,7 @@ const GameBoard = ()=>{
     const index = state.game.board.findIndex(item => item.find(d => d == 2));
     return index === -1 ? false:true;
   }
-
+  //useEffect uses for draw new shape and checkColision
   useEffect(()=>{
     
     if(!existShape() && state.game.board.length > 0){
@@ -65,7 +65,6 @@ const GameBoard = ()=>{
 	checkColision();
       }catch(ex){} 
     }
-    
   },[state.game.board]);
 
   const moveShape = (addX, addY)=>{
@@ -127,6 +126,8 @@ const GameBoard = ()=>{
     const piece = Pieces[state.game.currentPiece];
     const currentPositionShapeY = state.game.currentY + ((rotation == 1 || rotation == 3)? piece.dimensions[1] - 1: piece.dimensions[0]-1);
     const isTheEnd = (boardHeigh == currentPositionShapeY); 
+    let firstSolidLine = -1;
+    let matchLine = -1;
     if(isTheEnd){
       solidifyShape();
     }  
@@ -138,8 +139,21 @@ const GameBoard = ()=>{
 	    return;
 	  }
 	}
+	if(state.game.board[i].includes(1) && firstSolidLine === -1){firstSolidLine=i;}
+	if(!state.game.board[i].includes(0) && matchLine === -1){matchLine=i;}
       }
     }
+    if(matchLine >= 0 && firstSolidLine >= 0){
+      matchPoint(matchLine, firstSolidLine);
+    }
+  }
+
+  const matchPoint = (matchLine, firstSolidLine)=>{
+    let newBoard = state.game.board;
+    for(let i = matchLine; i >= firstSolidLine; i--){
+      newBoard[i] = newBoard[i-1];
+    }
+    dispatch({type:'SET_BOARD', payload:newBoard});
   }
 
   const solidifyShape = ()=>{
@@ -152,6 +166,7 @@ const GameBoard = ()=>{
     setRotation(newRotation);
   }
 
+  //init effect to draw the board
   useEffect(()=>{
     if(boardSizeRef.current){
       const {offsetWidth, offsetHeight } = boardSizeRef.current;
@@ -161,6 +176,7 @@ const GameBoard = ()=>{
     }
   },[]);
 
+  //effect uses when the rotation change
   useEffect(()=>{
     if(existShape()){
       moveShape(0, 0);
