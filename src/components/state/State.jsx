@@ -70,6 +70,16 @@ const reducer = (state, action) =>{
 	  } 
 	}
       }
+    case 'SET_STATISTICS_GAME':
+      return{
+	...state,
+	game:{
+	  ...state.game,
+	  score:action.payload.newPoints,
+	  level:action.payload.newLevel,
+	  linesCleared: state.game.linesCleared + 1
+	}
+      }
     default:
       return state;
   }
@@ -94,7 +104,8 @@ const initState = {
       L_tetromino:0
     },
     level:1,
-    score:0
+    score:0,
+    linesCleared:0
   }
 }
 

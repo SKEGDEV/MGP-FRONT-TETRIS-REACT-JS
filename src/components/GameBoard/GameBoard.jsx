@@ -54,7 +54,7 @@ const GameBoard = ()=>{
       }
       const isOnFirstLine = state.game.board[0].includes(1);
       const isOnBotton = state.game.board[piece.dimensions[0]-1].slice(startX, startX + piece.dimensions[1]-1).includes(1);
-      if(isOnFirstLine || isOnBotton){
+      if(isOnBotton || isOnFirstLine){
 	newBoard = newBoard.map(d=>d.map(value => ((value == 2 || value == 1) && 0)));
 	dispatch({type:'IS_GAME_OVER'});
       } 
@@ -150,10 +150,13 @@ const GameBoard = ()=>{
 
   const matchPoint = (matchLine, firstSolidLine)=>{
     let newBoard = state.game.board;
+    const points = state.game.score == 0 ? (state.game.level+1):(state.game.score*(state.game.level+1)); 
+    const level = Math.floor(state.game.linesCleared / 5)+1;
     for(let i = matchLine; i >= firstSolidLine; i--){
       newBoard[i] = newBoard[i-1];
     }
     dispatch({type:'SET_BOARD', payload:newBoard});
+    dispatch({type:'SET_STATISTICS_GAME', payload:{newPoints:points, newLevel:level}});
   }
 
   const solidifyShape = ()=>{
