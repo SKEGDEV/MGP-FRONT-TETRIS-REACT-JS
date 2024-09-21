@@ -1,4 +1,5 @@
 import { createContext, useReducer, useContext } from "react";
+import { Pieces } from "../../constant/gameConstant";
 
 const GlobalStateContext = createContext();
 
@@ -13,31 +14,20 @@ const reducer = (state, action) =>{
 	}
       }
     case 'SET_POSITION':
+      let currentShape = action?.payload?.change ? state.game.nextPiece : state.game.currentPiece;
+      let nextShape = action?.payload?.change ? Math.floor(Math.random()*7) : state.game.nextPiece; 
+      let newStatistic = action?.payload?.change ? state.game.shapeStatistics[Pieces[currentShape].name] + 1 : state.game.shapeStatistics[Pieces[currentShape].name];
       return{
 	...state,
 	game:{
 	  ...state.game,
 	  currentX:action.payload.x,
-	  currentY:action.payload.y
-	}
-      }
-    case 'SET_SHAPES':
-      return{
-	...state,
-	game:{
-	  ...state.game,
-	  currentPiece:action.payload.current,
-	  nextPiece: action.payload.next
-	}
-      }
-    case 'ADD_STATISTICS_SHAPES':
-      return{
-	...state,
-	game:{
-	  ...state.game,
+	  currentY:action.payload.y,
+	  currentPiece:currentShape,
+	  nextPiece:nextShape,
 	  shapeStatistics:{
 	    ...state.game.shapeStatistics,
-	    [action.payload]:state.game.shapeStatistics[action.payload]+1
+	    [Pieces[currentShape].name]:newStatistic
 	  }
 	}
       }
@@ -59,6 +49,7 @@ const reducer = (state, action) =>{
 	  ...state.game,
 	  score:0,
 	  level:1,
+	  linesCleared:0,
 	  shapeStatistics:{
 	    I_tetromino:0,
 	    O_tetromino:0,
@@ -75,8 +66,8 @@ const reducer = (state, action) =>{
 	...state,
 	game:{
 	  ...state.game,
-	  score:action.payload.newPoints,
-	  level:action.payload.newLevel,
+	  score:Math.floor(state.game.score == 0 ? (state.game.level+1):(state.game.score*(state.game.level+1))),
+	  level:Math.floor(state.game.linesCleared/5)+1,
 	  linesCleared: state.game.linesCleared + 1
 	}
       }

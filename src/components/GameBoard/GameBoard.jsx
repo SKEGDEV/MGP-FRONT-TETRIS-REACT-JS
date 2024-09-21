@@ -7,14 +7,13 @@ import { useInterval } from '../../hooks/useInterval';
 const GameBoard = ()=>{
   const boardSizeRef = useRef(null);
   const {state, dispatch} = useContext(GlobalStateContext); 
-  const [startX, setStartX] = useState(0);
+  const startX = 6;
   const [rotation, setRotation] = useState(0);
 
   const createBoard = (width, height)=>{
+    console.log(`${width} ${height}`);
     let arrayBoard = [];
-    let arrayTemp = [];
-    let start = Math.floor(parseInt(width)/2); 
-    setStartX(start);
+    let arrayTemp = []; 
     for(let y = 1; y < height; y++){
       arrayTemp = [];
       for(let x = 1; x < width; x++ ){	
@@ -22,44 +21,39 @@ const GameBoard = ()=>{
       }
       arrayBoard.push(arrayTemp);
     } 
-
-    dispatch({type:'SET_BOARD', payload:arrayBoard});
+    drawPiece(arrayBoard);
   }
 
   const existShape = ()=>{
-    const index = state.game.board.findIndex(item => item.find(d => d == 2));
-    return index === -1 ? false:true;
+    const exist = state.game.board.filter(y => y.includes(2));
+    return exist.length == 0 ? false:true;
   }
   //useEffect uses for draw new shape and checkColision
-  useEffect(()=>{
-    
-    if(!existShape() && state.game.board.length > 0){
-      setRotation(0);
-      let newBoard = state.game.board;
-      let current = state.game.nextPiece;
-      let next = Math.floor(Math.random()*7);
-      const piece = Pieces[current];
-      let boardX = startX;
-      let boardY = 0;
-      dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
-      dispatch({type:'SET_SHAPES', payload:{current:current, next:next}});
-      dispatch({type:'ADD_STATISTICS_SHAPES', payload:piece.name});
-      for(let y = 0; y < piece.dimensions[0]; y++){
-	for(let x = 0; x < piece.dimensions[1]; x++){
-	  newBoard[boardY][boardX] = piece.shape[y][x];
-	  boardX++;
-	}
-	boardY++;
-	boardX = startX;
+  const drawPiece = (board)=>{
+    setRotation(0);  
+    let newBoard = board;
+    let current = state.game.nextPiece;
+    const piece = Pieces[current];
+    let boardX = startX;
+    let boardY = 0;
+    for(let y = 0; y < piece.dimensions[0]; y++){
+      for(let x = 0; x < piece.dimensions[1]; x++){
+	newBoard[boardY][boardX] = piece.shape[y][x];
+	boardX++;
       }
-      const isOnFirstLine = state.game.board[0].includes(1);
-      const isOnBotton = state.game.board[piece.dimensions[0]-1].slice(startX, startX + piece.dimensions[1]-1).includes(1);
-      if(isOnFirstLine || isOnBotton){
-	newBoard = newBoard.map(d=>d.map(value => ((value == 2 || value == 1) && 0)));
-	dispatch({type:'IS_GAME_OVER'});
-      } 
-      dispatch({type:'SET_BOARD', payload:newBoard});
-    }
+      boardY++;
+      boardX = startX;
+    } 
+    const isOnBotton = board[piece.dimensions[0]].slice(startX, startX + piece.dimensions[1]-1).includes(1);
+    if(isOnBotton){
+      newBoard = newBoard.map(d=>d.map(value => ((value == 2 || value == 1) && 0)));
+      dispatch({type:'IS_GAME_OVER'});
+    } 
+    dispatch({type:'SET_POSITION', payload:{x:startX, y:0, change:true}});
+    dispatch({type:'SET_BOARD', payload:newBoard});
+  }
+
+  useEffect(()=>{ 
     if(existShape() && state.game.board.length > 0){
       try{
 	checkColision();
@@ -126,21 +120,25 @@ const GameBoard = ()=>{
     const piece = Pieces[state.game.currentPiece];
     const currentPositionShapeY = state.game.currentY + ((rotation == 1 || rotation == 3)? piece.dimensions[1] - 1: piece.dimensions[0]-1);
     const isTheEnd = (boardHeigh == currentPositionShapeY); 
+    const limitX= state.game.currentX + ((rotation == 1 || rotation == 3)? piece.dimensions[0]:piece.dimensions[1])+1;
     let firstSolidLine = -1;
     let matchLine = -1;
+    let includesSolid, includesEmpty;
     if(isTheEnd){
       solidifyShape();
     }  
     if(!isTheEnd){
       for(let i = state.game.currentY; i < state.game.board.length; i++){
-	for(let j = state.game.currentX; j < state.game.board[i].length; j++){
+	for(let j = state.game.currentX; j < limitX; j++){
 	  if(state?.game?.board[i][j]==1  && state?.game?.board[i-1][j] == 2){
 	    solidifyShape();
 	    return;
 	  }
-	}
-	if(state.game.board[i].includes(1) && firstSolidLine === -1){firstSolidLine=i;}
-	if(!state.game.board[i].includes(0) && matchLine === -1){matchLine=i;}
+	}	 
+	includesSolid = state.game.board[i].filter(x => x==1);
+	includesEmpty = state.game.board[i].filter(x => x==0);
+	if(includesSolid.length > 0 && firstSolidLine === -1){firstSolidLine=i;}
+	if(includesEmpty.length === 0 && matchLine === -1){matchLine=i;}
       }
     }
     if(matchLine >= 0 && firstSolidLine >= 0){
@@ -150,18 +148,16 @@ const GameBoard = ()=>{
 
   const matchPoint = (matchLine, firstSolidLine)=>{
     let newBoard = state.game.board;
-    let points = Math.floor(state.game.score == 0 ? (state.game.level+1):(state.game.score*(state.game.level+1))); 
-    let level = Math.floor(state.game.linesCleared / 5)+1;
     for(let i = matchLine; i >= firstSolidLine; i--){
       newBoard[i] = newBoard[i-1];
     }
     dispatch({type:'SET_BOARD', payload:newBoard});
-    dispatch({type:'SET_STATISTICS_GAME', payload:{newPoints:points, newLevel:level}});
+    dispatch({type:'SET_STATISTICS_GAME'});
   }
 
   const solidifyShape = ()=>{
     const newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 1 : value)));
-    dispatch({type:'SET_BOARD', payload:newBoard});
+    drawPiece(newBoard);
   }
 
   const rotatePiece = ()=>{  
@@ -173,9 +169,8 @@ const GameBoard = ()=>{
   useEffect(()=>{
     if(boardSizeRef.current){
       const {offsetWidth, offsetHeight } = boardSizeRef.current;
-      let width = Math.floor(parseInt(offsetWidth) / 20);
       let height = Math.floor(parseInt(offsetHeight) / 20) - 1;
-      createBoard(width, height);
+      createBoard(13, height);
     }
   },[]);
 
