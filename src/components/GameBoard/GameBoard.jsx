@@ -121,7 +121,7 @@ const GameBoard = ()=>{
     const isTheEnd = (boardHeigh == currentPositionShapeY); 
     const limitX= state.game.currentX + ((rotation == 1 || rotation == 3)? piece.dimensions[0]:piece.dimensions[1])+1;
     let firstSolidLine = -1;
-    let matchLine = -1;
+    let matchLine = [];
     let includesSolid, includesEmpty;
     if(isTheEnd){
       solidifyShape();
@@ -135,23 +135,30 @@ const GameBoard = ()=>{
 	  }
 	}	 
 	includesSolid = state.game.board[i].filter(x => x==1);
-	includesEmpty = state.game.board[i].filter(x => x==0);
 	if(includesSolid.length > 0 && firstSolidLine === -1){firstSolidLine=i;}
-	if(includesEmpty.length === 0 && matchLine === -1){matchLine=i;}
+	if(includesSolid.length === state.game.board[0].length){matchLine.push(i);}
       }
     }
-    if(matchLine >= 0 && firstSolidLine >= 0){
+    if(matchLine.length > 0 && firstSolidLine >= 0){
       matchPoint(matchLine, firstSolidLine);
     }
   }
 
   const matchPoint = (matchLine, firstSolidLine)=>{
     let newBoard = state.game.board;
-    for(let i = matchLine; i >= firstSolidLine; i--){
-      newBoard[i] = newBoard[i-1];
+    for(let i = matchLine[matchLine.length-1]; i >= firstSolidLine; i--){
+      if(matchLine.length === 1){
+	newBoard[i] = newBoard[i-1];
+      }  
+      if(matchLine.length === 2){
+	newBoard[i] = newBoard[i-2];
+      }
+      if(matchLine.length === 3){
+	newBoard[i] = newBoard[i-3];
+      }
     }
     dispatch({type:'SET_BOARD', payload:newBoard});
-    dispatch({type:'SET_STATISTICS_GAME'});
+    dispatch({type:'SET_STATISTICS_GAME', linesCleared:matchLine.length});
   }
 
   const solidifyShape = ()=>{
