@@ -11,7 +11,6 @@ const GameBoard = ()=>{
   const [rotation, setRotation] = useState(0);
 
   const createBoard = (width, height)=>{
-    console.log(`${width} ${height}`);
     let arrayBoard = [];
     let arrayTemp = []; 
     for(let y = 1; y < height; y++){
@@ -197,8 +196,9 @@ const GameBoard = ()=>{
   }
 
   useInterval(()=>{
+    if(Object.keys(state.currentPlayer).length === 0){return;}
     moveShape(0,1);
-  },700);
+  },state.game.speed);
 
   return(
     <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}>
@@ -267,7 +267,7 @@ const StatisticsR = ()=>{
       <div className={styles.player_container}>
         <div className={styles.player_info}>
           <h3>{`PLAYER`}</h3>
-          <h4>{state?.currentPlayer?.name}</h4>
+          <h4>{state?.currentPlayer?.p_name}</h4>
         </div>
         <div className={styles.player_info}>
           <h3>{`TOP`}</h3>

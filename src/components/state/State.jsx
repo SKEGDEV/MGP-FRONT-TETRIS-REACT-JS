@@ -32,10 +32,12 @@ const reducer = (state, action) =>{
 	}
       }
     case 'CREATE_PLAYER':
-      let newArray = [...state.players, action.payload]
+      let newArrayPlayers = [...state.players, action.payload]
+      const newPlayer = Object.keys(state.currentPlayer).length === 0 ? action.payload : state.currentPlayer;
       return{
 	...state,
-	players:newArray
+	players:newArrayPlayers,
+	currentPlayer: newPlayer
       }
     case 'SET_PLAYER':
       return{
@@ -43,8 +45,19 @@ const reducer = (state, action) =>{
 	currentPlayer:action.payload
       }
     case 'IS_GAME_OVER':
+      const newPlayerScore =(state.game.score > state.currentPlayer.topPoints) ? state.game.score : state.currentPlayer.topPoints;
+      const updatePlayers = state.players.map(d => {
+	if(d.p_name === state.currentPlayer.p_name){
+	  d.topPoints = newPlayerScore;
+	}
+      });
       return{
 	...state,
+	currentPlayer:{
+	  ...state.currentPlayer,
+	  topPoints:newPlayerScore
+	},
+	//players:updatePlayers,
 	game:{
 	  ...state.game,
 	  score:0,
@@ -66,8 +79,8 @@ const reducer = (state, action) =>{
 	...state,
 	game:{
 	  ...state.game,
-	  score:Math.floor(state.game.score == 0 ? (state.game.level+1):(state.game.score*(state.game.level+1))),
-	  level:Math.floor(state.game.linesCleared/5)+1,
+	  score:state.game.score + 40 * (state.game.level + 1),
+	  level:Math.floor(state.game.linesCleared/3)+1,
 	  linesCleared: state.game.linesCleared + 1
 	}
       }
@@ -96,7 +109,8 @@ const initState = {
     },
     level:1,
     score:0,
-    linesCleared:0
+    linesCleared:0,
+    speed:700
   }
 }
 

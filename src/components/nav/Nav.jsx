@@ -9,7 +9,7 @@ import Modal from '../modal/Modal';
 import LayoutModal from '../modalLayout/Layout';
 import TextField from '../textField/TextField';
 import Social from '../SocialBottom/Social';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { GlobalStateContext } from '../state/State';
 
 const NavBar = ()=>{
@@ -19,12 +19,25 @@ const NavBar = ()=>{
   const {state, dispatch} = useContext(GlobalStateContext);
   const [playerMenu, setPlayerMenu] = useState(false);
 
+  useEffect(()=>{
+    if(state?.players?.length === 0){
+      setModalPlayer(true);
+    }
+  },[state.players]);  
+
+  const controlModalPlayer = (value, isFirst)=>{
+    if(state?.players?.length === 0 && !isFirst){
+      return;
+    }
+    setModalPlayer(value);
+  }
+
   return(
     <div className={styles.nav}>
       <ModalAbout isOpen={modalAbout} modalSet={setModalAbout}/>
       <ModalContact isOpen={modalContact} modalSet={setModalContact}/>
       <ModalForMore/>
-      <ModalCreatePlayer isOpen={modalPlayer} modalState={setModalPlayer}/>
+      <ModalCreatePlayer isOpen={modalPlayer} modalState={controlModalPlayer}/>
       <div className={styles.nav_left}><img src={logo} alt="not found" /> <h1>TETRIS APP</h1> </div>
       <ul className={styles.nav_right}>
         <li onClick={()=>{setModalAbout(true);}}><button><GrProjects/>{`About Project`}</button></li>
@@ -101,6 +114,10 @@ const ModalCreatePlayer = (props)=>{
   const [name, setName] = useState('');
   const {state, dispatch} = useContext(GlobalStateContext);
   const [isExist, setIsExist] = useState(true);
+  const [notifyState, setNotifyState] = useState({
+    isShow:false,
+    message:''
+  });
 
   const onChange = (e)=>{
     if(e.target.value.length <= 4){
@@ -110,37 +127,44 @@ const ModalCreatePlayer = (props)=>{
   }
 
   const existPlayer = ()=>{
-    const findPlayer = state.players.find(item => item.p_name == name) || {};
-    console.log(findPlayer);
-    return Object.keys(findPlayer).length == 0 ? false:true;
+    const findPlayer = state.players.filter(x=>x.p_name == name);
+    return findPlayer.length === 0 ? false:true;
   }
 
   const onClick = ()=>{ 
-    if(existPlayer() || name.length === 0){
-      setIsExist(existPlayer());
+    if(name.length === 0){
+      setNotifyState({
+	isShow:true,
+	message:`Sorry but you need type minimun one character to continue`
+      });
+      setTimeout(()=>{setNotifyState({...notifyState, isShow:false})}, 4000);
       return;
     }
-    dispatch({type:'CREATE_PLAYER', payload:{p_name:name, topPoints:0}});
-    props.modalState(false);
+    if(existPlayer()){
+      setNotifyState({
+	isShow:true,
+	message:`The nickname: ${name} is already exist please try with another nickname`
+      });
+      return;
+    }
+    dispatch({type:'CREATE_PLAYER', payload:{p_name:name, topPoints:0}}); 
     setName('');
+    props.modalState(false, true);
   }
 
   const Notify = ()=>{
     return(
-      <>
-      {name.length != 0?  
-      <div style={{width:'100%', padding:'2dvh', display:'flex', flexDirection:'row', justifyContent:'center', backgroundColor:`${isExist ? '#DC3545': '#28A745'}`,
-                   marginBottom:'2dvh', borderRadius:'10px'}}>
-        {isExist ? <IoIosCloseCircle style={{color:'white', fontSize:'3dvh', marginRight:'1dvh'}}/>:
-	  <FaCheckCircle style={{color:'white', fontSize:'3dvh', marginRight:'1dvh'}}/>}
-        <p>{isExist ? 'This player is already exist please enter another name':'This player is available'}</p>
-      </div>
-	:<></>}
+      <>  
+      <div 
+      style={{width:'100%', padding:'2dvh', display:'flex', flexDirection:'row',
+	      justifyContent:'center', backgroundColor:`#DC3545`,
+	      marginBottom:'2dvh', borderRadius:'10px', display:`${notifyState.isShow ? `flex`:`none`}`}}>
+        <IoIosCloseCircle style={{color:'white', fontSize:'3dvh', marginRight:'1dvh'}}/>
+        <p>{notifyState.message}</p>
+      </div>	
       </>
     );
   }
-
- 
   return(
     <Modal isOpen={props.isOpen} modalState={props.modalState}>
       <LayoutModal variant='operation' btnTittle='Add Player' btnOnClick={onClick}>
