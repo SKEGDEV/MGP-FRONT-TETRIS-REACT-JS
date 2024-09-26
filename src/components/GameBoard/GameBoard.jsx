@@ -122,7 +122,7 @@ const GameBoard = ()=>{
     const limitX= state.game.currentX + ((rotation == 1 || rotation == 3)? piece.dimensions[0]:piece.dimensions[1])+1;
     let firstSolidLine = -1;
     let matchLine = [];
-    let includesSolid, includesEmpty;
+    let includesSolid;
     if(isTheEnd){
       solidifyShape();
     }  
@@ -168,6 +168,10 @@ const GameBoard = ()=>{
 
   const rotatePiece = ()=>{  
     let newRotation = rotation === 3 ? 0 : rotation + 1; 
+    const newShapeDimension = state.game.currentX + Pieces[state.game.currentPiece].dimensions[(newRotation == 1 || newRotation == 3)? 0:1]
+    if(newShapeDimension > state.game.board[0].length){
+      return;
+    }
     setRotation(newRotation);
   }
 

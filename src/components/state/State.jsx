@@ -64,6 +64,7 @@ const reducer = (state, action) =>{
 	  score:0,
 	  level:1,
 	  linesCleared:0,
+	  speed:700,
 	  shapeStatistics:{
 	    I_tetromino:0,
 	    O_tetromino:0,
@@ -76,14 +77,20 @@ const reducer = (state, action) =>{
 	}
       }
     case 'SET_STATISTICS_GAME':
+      const newLevel = Math.floor(state.game.linesCleared/3)+1;
+      let newSpeed = state.game.speed
+      if(newLevel !== state.game.level){
+	newSpeed -= newSpeed * 0.1;
+      }
       return{
 	...state,
 	game:{
 	  ...state.game,
 	  score:state.game.score + (action.linesCleared === 1 ? 40 :
 	                            action.linesCleared === 2 ? 100 : 300) * (state.game.level + 1),
-	  level:Math.floor(state.game.linesCleared/3)+1,
-	  linesCleared: state.game.linesCleared + 1
+	  level:newLevel,
+	  linesCleared: state.game.linesCleared + 1,
+	  speed:newSpeed
 	}
       }
     default:
