@@ -4,7 +4,6 @@ import { GrProjects } from "react-icons/gr";
 import { MdOutlineDeveloperMode, MdVideogameAsset, MdMore } from "react-icons/md";
 import { IoPersonAddSharp  } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
-import { FaCheckCircle } from "react-icons/fa";
 import Modal from '../modal/Modal';
 import LayoutModal from '../modalLayout/Layout';
 import TextField from '../textField/TextField';
@@ -29,6 +28,9 @@ const NavBar = ()=>{
     if(state?.players?.length === 0 && !isFirst){
       return;
     }
+    if(!state?.game?.isGameStarted){
+      dispatch({type:'OPEN_CLOSE_START_MODAL'});
+    }
     setModalPlayer(value);
   }
 
@@ -38,7 +40,7 @@ const NavBar = ()=>{
       <ModalContact isOpen={modalContact} modalSet={setModalContact}/>
       <ModalForMore/>
       <ModalCreatePlayer isOpen={modalPlayer} modalState={controlModalPlayer}/>
-      <div className={styles.nav_left}><img src={logo} alt="not found" /> <h1>TETRIS APP</h1> </div>
+      <div className={styles.nav_left}><img src={logo} alt="not found" /></div>
       <ul className={styles.nav_right}>
         <li onClick={()=>{setModalAbout(true);}}><button><GrProjects/>{`About Project`}</button></li>
         <li onClick={()=>{setModalContact(true);}}><button><MdOutlineDeveloperMode/>{`Contact With Developer`}</button></li>
@@ -47,10 +49,10 @@ const NavBar = ()=>{
          <ul className={styles.players_menu} style={{display:`${playerMenu? 'block': 'none'}`}}>
            {state.players.length > 0 ?
 	     <>
-	      {state.players.map((d,index)=>(<li key={index}><button>{d.p_name}</button></li>))}
+	      {state.players.map((d,index)=>(<li className={styles.playersButton} key={index}><button>{d.p_name}</button></li>))}
 	     </>
 	     :<p>{`Don't exist players please add a new player`}</p>} 
-           <li onClick={()=>{setModalPlayer(true);}}><button><IoPersonAddSharp/>{`Add New Player`}</button></li>
+           <li className={styles.playersButton} onClick={()=>{setModalPlayer(true);}}><button><IoPersonAddSharp/>{`Add New Player`}</button></li>
          </ul>
         </li>
         <li><button><MdMore/> {`For More`}</button></li>
@@ -66,7 +68,7 @@ const ModalAbout = (props)=>{
      <LayoutModal>
        <div style={{width:"100%", padding:"1dvh",display:"flex", overflowY:"scroll", flexDirection:"column", alignItems:"center", scrollbarWidth:"none"}}>
          <div style={{marginBottom:"3dvh"}}>
-           <h1>{`TETRIS PROJECT`}</h1>
+           <h1>{`TETRIS`}</h1>
          </div>
          <div style={{marginBottom:"3dvh"}}>
            <p style={{textAlign:"justify"}}>
@@ -113,7 +115,6 @@ const ModalForMore = (props)=>{
 const ModalCreatePlayer = (props)=>{
   const [name, setName] = useState('');
   const {state, dispatch} = useContext(GlobalStateContext);
-  const [isExist, setIsExist] = useState(true);
   const [notifyState, setNotifyState] = useState({
     isShow:false,
     message:''

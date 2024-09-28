@@ -3,6 +3,10 @@ import { useEffect, useRef, useState, useContext } from 'react';
 import { Pieces } from '../../constant/gameConstant';
 import { GlobalStateContext } from '../state/State';
 import { useInterval } from '../../hooks/useInterval';
+import { LuArrowUpSquare, LuArrowRightSquare, LuArrowLeftSquare, LuArrowDownSquare } from "react-icons/lu";
+import Modal from '../modal/Modal';
+import LayoutModal from '../modalLayout/Layout';
+
 
 const GameBoard = ()=>{
   const boardSizeRef = useRef(null);
@@ -177,12 +181,12 @@ const GameBoard = ()=>{
 
   //init effect to draw the board
   useEffect(()=>{
-    if(boardSizeRef.current){
+    if(boardSizeRef.current && state.game.isGameStarted){
       const {offsetWidth, offsetHeight } = boardSizeRef.current;
       let height = Math.floor(parseInt(offsetHeight) / 20) - 1;
       createBoard(13, height);
     }
-  },[]);
+  },[state.game.isGameStarted]);
 
   //effect uses when the rotation change
   useEffect(()=>{
@@ -213,6 +217,7 @@ const GameBoard = ()=>{
 
   return(
     <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}>
+      <ModalStart/>
       <StatisticsL/>
       <div className={styles.board} ref={boardSizeRef}> 
        {state.game.board.map((d, index)=>(
@@ -300,6 +305,52 @@ const StatisticsR = ()=>{
     </div>
   );
 }
+
+const ModalStart = ()=>{
+  const keyWord = {display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}
+  const key = {color:'white', fontSize:'8dvh'};
+  const {state, dispatch} = useContext(GlobalStateContext);
+
+  const startGame = ()=>{
+    dispatch({type:'OPEN_CLOSE_START_MODAL'});
+    dispatch({type:'START_GAME'});
+  }
+
+  return(
+    <Modal isOpen={state.game.isModalStartOpen} modalState={startGame}>
+      <LayoutModal>
+        <div>
+          <h1>{`WELCOME ${state.currentPlayer.p_name}`}</h1>
+        </div>
+        <div>
+          <div style={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'center', alignItems: 'center', marginTop:'3dvh'}}>
+   
+          </div>
+          <div style={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <div style={keyWord}>
+              <LuArrowLeftSquare style={key}/>
+              <p>LEFT</p>
+            </div>
+            <div style={keyWord}>
+              <LuArrowUpSquare style={key}/>
+              <p>ROTATE</p>
+            </div>
+            <div style={keyWord}>
+              <LuArrowDownSquare style={key}/>
+              <p>DOWN</p>
+            </div>
+            <div style={keyWord}>
+              <LuArrowRightSquare style={key}/>
+              <p>RIGHT</p>
+            </div>
+          </div>
+        </div>
+      </LayoutModal>
+    </Modal>
+  )
+}
+
+
 
 export default GameBoard;
 

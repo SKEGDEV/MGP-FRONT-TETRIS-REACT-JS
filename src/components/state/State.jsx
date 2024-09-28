@@ -76,6 +76,22 @@ const reducer = (state, action) =>{
 	  } 
 	}
       }
+    case 'START_GAME':
+      return{
+	...state,
+	game:{
+	  ...state.game,
+	  isGameStarted:true
+	}
+      }
+    case 'OPEN_CLOSE_START_MODAL':
+      return{
+	...state,
+	game:{
+	  ...state.game,
+	  isModalStartOpen:!state.game.isModalStartOpen
+	}
+      }
     case 'SET_STATISTICS_GAME':
       const newLevel = Math.floor(state.game.linesCleared/3)+1;
       let newSpeed = state.game.speed
@@ -119,7 +135,10 @@ const initState = {
     level:1,
     score:0,
     linesCleared:0,
-    speed:700
+    speed:700,
+    isGamePaused: true, 
+    isGameStarted: false,
+    isModalStartOpen:false
   }
 }
 
