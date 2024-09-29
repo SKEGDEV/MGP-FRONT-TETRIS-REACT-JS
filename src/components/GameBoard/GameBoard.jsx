@@ -216,8 +216,8 @@ const GameBoard = ()=>{
   },state.game.speed);
 
   return(
-    <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}>
-      <ModalStart/>
+    <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}> 
+      <CoverStartGame/>
       <StatisticsL/>
       <div className={styles.board} ref={boardSizeRef}> 
        {state.game.board.map((d, index)=>(
@@ -231,6 +231,36 @@ const GameBoard = ()=>{
       </div>
       <StatisticsR/>
     </div> 
+  );
+}
+
+const CoverStartGame = ()=>{
+  return(
+    <span className={styles.cover_start_game}>
+      <div>
+        <span></span>
+        <h4>{`WELCOME PLEASE PRESS TO CONTINUE`}</h4>
+        <span></span>
+      </div>
+      <div>
+        <div>
+          <LuArrowLeftSquare/>
+          <p>{`MOVE LEFT`}</p>
+        </div>
+        <div>
+          <LuArrowDownSquare/>
+          <p>{`MOVE DOWN`}</p>
+        </div>
+        <div>
+          <LuArrowUpSquare/>
+          <p>{`ROTATE SHAPE`}</p>
+        </div>
+        <div>
+          <LuArrowRightSquare/>
+          <p>{`MOVE RIGHT`}</p>
+        </div>
+      </div>
+    </span>
   );
 }
 

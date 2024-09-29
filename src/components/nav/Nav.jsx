@@ -16,7 +16,6 @@ const NavBar = ()=>{
   const [modalContact, setModalContact] = useState(false);
   const [modalPlayer, setModalPlayer] = useState(false);
   const {state, dispatch} = useContext(GlobalStateContext);
-  const [playerMenu, setPlayerMenu] = useState(false);
 
   useEffect(()=>{
     if(state?.players?.length === 0){
@@ -44,9 +43,9 @@ const NavBar = ()=>{
       <ul className={styles.nav_right}>
         <li onClick={()=>{setModalAbout(true);}}><button><GrProjects/>{`About Project`}</button></li>
         <li onClick={()=>{setModalContact(true);}}><button><MdOutlineDeveloperMode/>{`Contact With Developer`}</button></li>
-        <li>
-         <button onClick={()=>{setPlayerMenu(!playerMenu);}} className={`${playerMenu? styles.activate:''}`}><MdVideogameAsset/>{`Player`}</button>
-         <ul className={styles.players_menu} style={{display:`${playerMenu? 'block': 'none'}`}}>
+        <li className={styles.menuPlayerButton}>
+         <button><MdVideogameAsset/>{`Player`}</button>
+         <ul className={styles.players_menu}>
            {state.players.length > 0 ?
 	     <>
 	      {state.players.map((d,index)=>(<li className={styles.playersButton} key={index}><button>{d.p_name}</button></li>))}
@@ -157,7 +156,7 @@ const ModalCreatePlayer = (props)=>{
     return(
       <>  
       <div 
-      style={{width:'100%', padding:'2dvh', display:'flex', flexDirection:'row',
+      style={{width:'100%', padding:'2dvh', flexDirection:'row',
 	      justifyContent:'center', backgroundColor:`#DC3545`,
 	      marginBottom:'2dvh', borderRadius:'10px', display:`${notifyState.isShow ? `flex`:`none`}`}}>
         <IoIosCloseCircle style={{color:'white', fontSize:'3dvh', marginRight:'1dvh'}}/>
