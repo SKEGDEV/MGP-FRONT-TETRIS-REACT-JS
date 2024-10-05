@@ -136,7 +136,7 @@ const initState = {
     score:0,
     linesCleared:0,
     speed:700,
-    isGamePaused: true, 
+    isGamePaused: false, 
     isGameStarted: false,
     isModalStartOpen:false
   }

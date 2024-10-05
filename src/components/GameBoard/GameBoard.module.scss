@@ -67,3 +67,46 @@ $c_letter: #ffffff;
   }
 
 }
+
+.cover_start_game{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  background: rgba( $bg_base, 0.75 );
+  backdrop-filter: blur( 6.5px );
+  -webkit-backdrop-filter: blur( 6.5px );
+  cursor: pointer;
+  .cover_container_tutorial{
+    display: flex;
+    flex-direction: row;
+    margin-top: 4dvh;
+  }
+  .cover_tittle{
+    display: flex;
+    flex-direction: row;
+    div{
+      width: 50dvh;
+      height: 0.2dvh;
+      background-color: white;
+      margin: 1.5dvh;
+    }
+  }
+  .cover_tutorial_key{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2dvh;
+    p,svg{
+      color: white;
+    }
+    svg{
+      font-size: 12dvh;
+    }
+  }
+}

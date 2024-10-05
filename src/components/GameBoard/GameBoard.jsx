@@ -235,27 +235,38 @@ const GameBoard = ()=>{
 }
 
 const CoverStartGame = ()=>{
+  const {state, dispatch} = useContext(GlobalStateContext);
+
+  const handlePress = ()=>{
+    if(state.game.isModalStartOpen){
+      dispatch({type:'OPEN_CLOSE_START_MODAL'});
+      dispatch({type:'START_GAME'});
+      return;
+    }
+    
+  }
+
   return(
-    <span className={styles.cover_start_game}>
-      <div>
-        <span></span>
-        <h4>{`WELCOME PLEASE PRESS TO CONTINUE`}</h4>
-        <span></span>
+    <span onClick={handlePress} style={{display:(state.game.isModalStartOpen || state.game.isGamePaused)?"flex":"none"}} className={styles.cover_start_game}>
+      <div className={styles.cover_tittle}>
+        <div></div>
+        <h4>{`${state.game.isModalStartOpen? 'WELCOME':'PAUSED'} PLEASE PRESS TO CONTINUE`}</h4>
+        <div></div>
       </div>
-      <div>
-        <div>
+      <div className={styles.cover_container_tutorial}>
+        <div className={styles.cover_tutorial_key}>
           <LuArrowLeftSquare/>
           <p>{`MOVE LEFT`}</p>
         </div>
-        <div>
+        <div className={styles.cover_tutorial_key}>
           <LuArrowDownSquare/>
           <p>{`MOVE DOWN`}</p>
         </div>
-        <div>
+        <div className={styles.cover_tutorial_key}>
           <LuArrowUpSquare/>
           <p>{`ROTATE SHAPE`}</p>
         </div>
-        <div>
+        <div className={styles.cover_tutorial_key}>
           <LuArrowRightSquare/>
           <p>{`MOVE RIGHT`}</p>
         </div>
