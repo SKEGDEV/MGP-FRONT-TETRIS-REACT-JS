@@ -347,51 +347,5 @@ const StatisticsR = ()=>{
   );
 }
 
-const ModalStart = ()=>{
-  const keyWord = {display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}
-  const key = {color:'white', fontSize:'8dvh'};
-  const {state, dispatch} = useContext(GlobalStateContext);
-
-  const startGame = ()=>{
-    dispatch({type:'OPEN_CLOSE_START_MODAL'});
-    dispatch({type:'START_GAME'});
-  }
-
-  return(
-    <Modal isOpen={state.game.isModalStartOpen} modalState={startGame}>
-      <LayoutModal>
-        <div>
-          <h1>{`WELCOME ${state.currentPlayer.p_name}`}</h1>
-        </div>
-        <div>
-          <div style={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'center', alignItems: 'center', marginTop:'3dvh'}}>
-   
-          </div>
-          <div style={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
-            <div style={keyWord}>
-              <LuArrowLeftSquare style={key}/>
-              <p>LEFT</p>
-            </div>
-            <div style={keyWord}>
-              <LuArrowUpSquare style={key}/>
-              <p>ROTATE</p>
-            </div>
-            <div style={keyWord}>
-              <LuArrowDownSquare style={key}/>
-              <p>DOWN</p>
-            </div>
-            <div style={keyWord}>
-              <LuArrowRightSquare style={key}/>
-              <p>RIGHT</p>
-            </div>
-          </div>
-        </div>
-      </LayoutModal>
-    </Modal>
-  )
-}
-
-
-
 export default GameBoard;
 
