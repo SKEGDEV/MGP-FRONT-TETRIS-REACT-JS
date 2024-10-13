@@ -37,6 +37,19 @@ $c_letter: #ffffff;
     display: flex;
     flex-direction: column;
     @include info_containers();
+    .btn_container{
+      margin-top: 8dvh;
+      border: 1px solid white;
+      padding: 2dvh;
+      display: flex;
+      justify-content: space-between;
+      border-radius: 5px;
+      svg{
+        font-size: 35px;
+        color: white;
+        cursor: pointer;
+      }
+    }
   }
 
   .shape{

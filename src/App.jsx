@@ -1,6 +1,7 @@
 import NavBar from './components/nav/Nav';
 import GameBoard from './components/GameBoard/GameBoard';
 import 'animate.css'
+import soundtrack from './assets/soundtrack.mp3';
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
     <div> 
      <NavBar/>
      <GameBoard />
+     <audio src={soundtrack} autoPlay={false} loop={true}/>
     </div>
   )
 }

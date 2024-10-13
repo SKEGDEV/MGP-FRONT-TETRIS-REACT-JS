@@ -4,8 +4,8 @@ import { Pieces } from '../../constant/gameConstant';
 import { GlobalStateContext } from '../state/State';
 import { useInterval } from '../../hooks/useInterval';
 import { LuArrowUpSquare, LuArrowRightSquare, LuArrowLeftSquare, LuArrowDownSquare } from "react-icons/lu";
-import Modal from '../modal/Modal';
-import LayoutModal from '../modalLayout/Layout';
+import { BsPauseBtnFill } from "react-icons/bs";
+import { AiFillSound, AiFillMuted } from "react-icons/ai";
 
 
 const GameBoard = ()=>{
@@ -290,7 +290,11 @@ const StatisticsL = ()=>{
       <Shape index={3} points={state.game.shapeStatistics.S_tetromino}/>
       <Shape index={4} points={state.game.shapeStatistics.Z_tetromino}/>
       <Shape index={5} points={state.game.shapeStatistics.J_tetromino}/>
-      <Shape index={6} points={state.game.shapeStatistics.L_tetromino}/>
+      <Shape index={6} points={state.game.shapeStatistics.L_tetromino}/> 
+      <div className={styles.btn_container}>
+        <AiFillSound/>
+        <BsPauseBtnFill/>
+      </div>
     </div>
   );
 }
