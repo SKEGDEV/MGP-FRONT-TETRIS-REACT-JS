@@ -2,12 +2,11 @@ import logo from '../../assets/logo.png';
 import styles from './Nav.module.scss';
 import { GrProjects } from "react-icons/gr";
 import { MdOutlineDeveloperMode, MdVideogameAsset, MdMore } from "react-icons/md";
-import { IoPersonAddSharp  } from "react-icons/io5";
+import { IoPersonAddSharp, IoPersonAdd  } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
 import Modal from '../modal/Modal';
-import LayoutModal from '../modalLayout/Layout';
 import TextField from '../textField/TextField';
-import Social from '../SocialBottom/Social';
+import Button from '../button/Button';
 import { useState, useContext, useEffect } from 'react';
 import { GlobalStateContext } from '../state/State';
 
@@ -64,32 +63,6 @@ const ModalAbout = (props)=>{
 
   return(
     <Modal isOpen={props.isOpen} modalState={props.modalSet}>
-     <LayoutModal>
-       <div style={{width:"100%", padding:"1dvh",display:"flex", overflowY:"scroll", flexDirection:"column", alignItems:"center", scrollbarWidth:"none"}}>
-         <div style={{marginBottom:"3dvh"}}>
-           <h1>{`TETRIS`}</h1>
-         </div>
-         <div style={{marginBottom:"3dvh"}}>
-           <p style={{textAlign:"justify"}}>
-            {`Welcome! this game is part of my professional portfolio, i'm Eduardo Gonzalez junior developer with 3 years of experience.`}
-            <br />
-            <br /> 
-            {`I did this project for a challenge that i saw on a youtube for the youtuber and senior developer Midu dev, i saw how he did this 
-	      technical test for a job as developer for $250k/year and for challenge me i want do this challenge within the stipulated
-	      time for the test that 40 minutes, i don't know if i can but i'll try it.`}
-            <br/>
-            <br/>
-            {`If you want to see if i succeeded, here is the video from my YouTube Channel`}
-            
-           </p>
-         </div>
-         <div style={{marginBottom:"3dvh"}}><iframe width="560" height="315" src="https://www.youtube.com/embed/6hzrDeceEKc"></iframe></div>
-         <div style={{marginBottom:"3dvh"}}>
-           <p>{`If you like my work and want get to know more about me this it's my social information, it will be a pleasure to chat with you`}</p>
-         </div>
-         <Social/>
-       </div>
-     </LayoutModal>
     </Modal>
   );
 
@@ -166,14 +139,19 @@ const ModalCreatePlayer = (props)=>{
     );
   }
   return(
-    <Modal isOpen={props.isOpen} modalState={props.modalState}>
-      <LayoutModal variant='operation' btnTittle='Add Player' btnOnClick={onClick}>
-       <Notify/>
-       <div style={{width:"100%", display:"flex", flexDirection:"column", justifyContent:"center", textAlign:"center"}}>
-         <h1 style={{marginBottom:"3dvh"}}>{`ADD NEW PLAYER`}</h1>
-         <TextField placeholder='Enter your player name' value={name} onChange={onChange}/>
-       </div>
-      </LayoutModal>
+    <Modal isOpen={props.isOpen} modalState={props.modalState} variant='operation' btnTittle='Add new player' btnOnClick={onclick}>
+      <div className={styles.modal_player_container}>
+        <div className={styles.modal_player_head}>
+          <span></span>
+          <h4>{`Add new Player`}</h4>
+          <span></span>
+        </div>
+        <div className={styles.modal_player_body}>
+          <Notify/>
+          <TextField/>
+          <Button variant='success'><IoPersonAdd/>{` Create new player`}</Button>
+        </div>
+      </div>
     </Modal>
   );
 }

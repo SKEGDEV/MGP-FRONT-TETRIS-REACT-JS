@@ -74,4 +74,36 @@ $c_letter: #ffffff;
   }
 }
 
+.modal_player_container{
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 10dvh;
+  border: 1px solid white;
+  padding: 4dvh 0 4dvh 0;
+  border-radius: 4dvh;
 
+  .modal_player_head{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 4dvh;
+    span{
+      width: 15dvh;
+      background-color: white;
+      height: .3dvh;
+      margin-top: 2dvh;
+    }
+    h4{
+      margin: .5dvh;
+    }
+  }
+
+  .modal_player_body{
+    width: 80%;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

@@ -14,10 +14,21 @@ $bg_contrast: #202020;
   backdrop-filter: blur( 6.5px );
   -webkit-backdrop-filter: blur( 6.5px );
 
+  .modal_head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;  
+    height: 7dvh;
+    img{
+      width: 15dvh;
+      height: 7dvh;
+    }
+  }
 
   .modal_content{
-    width: 90dvh;
-    padding: 5dvh;
+    width: 170dvh;
+    padding: 3dvh;
+    height: 90dvh;
     background-color: $bg_contrast;
     border-radius: 3px;
   }
