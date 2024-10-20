@@ -92,7 +92,7 @@ $c_letter: #ffffff;
       width: 15dvh;
       background-color: white;
       height: .3dvh;
-      margin-top: 2dvh;
+      margin-top: 2.5dvh;
     }
     h4{
       margin: .5dvh;
@@ -101,9 +101,27 @@ $c_letter: #ffffff;
 
   .modal_player_body{
     width: 80%;
+    height: 35dvh;
     margin-left: 10%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center; 
+    justify-content: space-around;
+  }
+}
+
+.modal_about_container{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 5dvh;
+  span{
+    width: .5dvh;
+    height: 75dvh;
+    background-color: white;
+    margin: 0 1dvh 0 1dvh;
   }
 }

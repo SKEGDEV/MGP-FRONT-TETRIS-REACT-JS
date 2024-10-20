@@ -9,6 +9,7 @@ import TextField from '../textField/TextField';
 import Button from '../button/Button';
 import { useState, useContext, useEffect } from 'react';
 import { GlobalStateContext } from '../state/State';
+import Social from '../SocialBottom/Social';
 
 const NavBar = ()=>{
   const [modalAbout, setModalAbout] = useState(false);
@@ -63,6 +64,18 @@ const ModalAbout = (props)=>{
 
   return(
     <Modal isOpen={props.isOpen} modalState={props.modalSet}>
+     <div className={styles.modal_about_container}> 
+       <div>
+         <h4>{`About tetris`}</h4>
+         <img src="" alt="none" />
+         <p>{`Welcome i'm Eduardo Gonzalez full stack software developer`}</p>
+       </div>
+       <span></span>
+       <div>
+         <iframe height="300"  frameborder="0" width="500" src="https://www.youtube.com/embed/VIDEO_ID"/>
+         <Social/>
+       </div> 
+     </div>
     </Modal>
   );
 
@@ -129,7 +142,7 @@ const ModalCreatePlayer = (props)=>{
     return(
       <>  
       <div 
-      style={{width:'100%', padding:'2dvh', flexDirection:'row',
+      style={{width:'90%', marginLeft:'2.5%', padding:'2dvh', flexDirection:'row',
 	      justifyContent:'center', backgroundColor:`#DC3545`,
 	      marginBottom:'2dvh', borderRadius:'10px', display:`${notifyState.isShow ? `flex`:`none`}`}}>
         <IoIosCloseCircle style={{color:'white', fontSize:'3dvh', marginRight:'1dvh'}}/>
@@ -145,11 +158,16 @@ const ModalCreatePlayer = (props)=>{
           <span></span>
           <h4>{`Add new Player`}</h4>
           <span></span>
-        </div>
-        <div className={styles.modal_player_body}>
-          <Notify/>
-          <TextField/>
-          <Button variant='success'><IoPersonAdd/>{` Create new player`}</Button>
+        </div> 
+        <Notify/>
+        <div className={styles.modal_player_body}> 
+          <TextField
+           onChange={onChange}
+           placeholder={`Insert your player nickname`}
+           type='text'
+           value={name}
+          />
+          <Button onClick={onClick} variant='success'><IoPersonAdd/>{` Create new player`}</Button>
         </div>
       </div>
     </Modal>
