@@ -1,0 +1,83 @@
+
+.btnGameContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 6vh 0 0 5%;
+}
+
+.btnCrossContainer {
+  border-radius: 50%;
+  background-color: #d6d7da;
+  padding: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 15vh;
+  height: 15vh;
+}
+
+.btnCrossContainer button {
+  width: 5vh;
+  height: 5vh;
+  border-radius: .5vh;
+  border: none;
+  outline: none;
+  background-color: #373736;
+  cursor: pointer;
+}
+
+.btnCrossVertical {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.btnAbContainer {
+  border-radius: 50%;
+  background-color: #d6d7da;
+  padding: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: rotate(-40deg);
+  width: 15vh;
+  height: 8vh;
+}
+
+.btnAbContainer button {
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.btnAbButton button {
+  background-color: #c1247d;
+}
+
+.btnAbLabel span {
+  font-size: 1.5vh;
+  color: #2747a0;
+}
+
+.btnAbButton, .btnAbLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btnAbLabel {
+  width: 60%;
+  margin-top: 1vh;
+}
+
+.btnAbButton {
+  width: 100%;
+}

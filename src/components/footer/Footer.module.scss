@@ -1,0 +1,34 @@
+.btnFooterContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnFooterForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-40deg);
+}
+
+.marginLeft {
+  margin-left: 3vh;
+}
+
+.btnFooterForm button {
+  width: 4.5vh;
+  height: 1.5vh;
+  border-radius: 2vh;
+  border: none;
+  outline: none;
+  background-color: #4d4d4d;
+  margin-bottom: .3vh;
+  cursor: pointer;
+}
+
+.btnFooterForm span {
+  font-size: 1.5vh;
+  color: #2747a0;
+}

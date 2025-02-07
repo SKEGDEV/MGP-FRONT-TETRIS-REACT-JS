@@ -1,13 +1,10 @@
-import styles from './GameBoard.module.scss';
+import styles from './Header.module.scss';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { Pieces } from '../../constant/gameConstant';
 import { GlobalStateContext } from '../state/State';
 import { useInterval } from '../../hooks/useInterval';
-import { BsPauseBtnFill } from "react-icons/bs";
-import { AiFillSound, AiFillMuted } from "react-icons/ai";
 
-
-const GameBoard = ()=>{
+export default function Board(){
   const boardSizeRef = useRef(null);
   const {state, dispatch} = useContext(GlobalStateContext); 
   const startX = 6;
@@ -24,6 +21,7 @@ const GameBoard = ()=>{
       arrayBoard.push(arrayTemp);
     } 
     drawPiece(arrayBoard);
+    console.log(arrayBoard);
   }
 
   const existShape = ()=>{
@@ -180,12 +178,8 @@ const GameBoard = ()=>{
 
   //init effect to draw the board
   useEffect(()=>{
-    if(boardSizeRef.current && state.game.isGameStarted){
-      const {offsetWidth, offsetHeight } = boardSizeRef.current;
-      let height = Math.floor(parseInt(offsetHeight) / 20) - 1;
-      createBoard(13, height);
-    }
-  },[state.game.isGameStarted]);
+    createBoard(15, 16);
+  },[/*state.game.isGameStarted*/]);
 
   //effect uses when the rotation change
   useEffect(()=>{
@@ -214,141 +208,43 @@ const GameBoard = ()=>{
     moveShape(0,1);
   },state.game.speed);
 
-  return(
-    <div tabIndex={0} onKeyDown={e=>{handleKey(e);}} className={styles.container}> 
-      <CoverStartGame/>
-      <StatisticsL/>
-      <div className={styles.board} ref={boardSizeRef}> 
-       {state.game.board.map((d, index)=>(
-	 <div key={index} style={{width:"100%", display:"flex", flexDirection:"row"}}>
-	 {d.map((d, index)=>(
-	   <div key={index} style={{width:"20px", height:"20px", backgroundColor:`${d == 1? 'white': d== 2 ? Pieces[state.game.currentPiece].color:''}`, border:"1px solid black"}}>
-	   </div>
-	 ))}
-	 </div>
-       ))}
-      </div>
-      <StatisticsR/>
-    </div> 
-  );
-}
-
-const CoverStartGame = ()=>{
-  const {state, dispatch} = useContext(GlobalStateContext);
-
-  const handlePress = ()=>{
-    if(state.game.isModalStartOpen){
-      dispatch({type:'OPEN_CLOSE_START_MODAL'});
-      dispatch({type:'START_GAME'});
-      return;
-    }
-    
-  }
 
   return(
-    <span onClick={handlePress} style={{display:(state.game.isModalStartOpen || state.game.isGamePaused)?"flex":"none"}} className={styles.cover_start_game}>
-      <div className={styles.cover_tittle}>
-        <div></div>
-        <h4>{`${state.game.isModalStartOpen? 'WELCOME':'PAUSED'} PLEASE PRESS TO CONTINUE`}</h4>
-        <div></div>
-      </div>
-      <div className={styles.cover_container_tutorial}>
-        <div className={styles.cover_tutorial_key}>
-          
-          <p>{`MOVE LEFT`}</p>
-        </div>
-        <div className={styles.cover_tutorial_key}>
-          
-          <p>{`MOVE DOWN`}</p>
-        </div>
-        <div className={styles.cover_tutorial_key}>
-          
-          <p>{`ROTATE SHAPE`}</p>
-        </div>
-        <div className={styles.cover_tutorial_key}>
-          
-          <p>{`MOVE RIGHT`}</p>
-        </div>
-      </div>
-    </span>
-  );
-}
-
-const StatisticsL = ()=>{
-  const {state, dispatch} = useContext(GlobalStateContext);
-
-  return(
-    <div className={styles.statistics_container}>
-      <h3>{`A-TYPE`}</h3>
-      <div className={styles.statistics}>
-        <h3>{`STATISTICS`}</h3>
-      </div>
-      <Shape index={0} points={state.game.shapeStatistics.I_tetromino}/>
-      <Shape index={1} points={state.game.shapeStatistics.O_tetromino}/>
-      <Shape index={2} points={state.game.shapeStatistics.T_tetromino}/>
-      <Shape index={3} points={state.game.shapeStatistics.S_tetromino}/>
-      <Shape index={4} points={state.game.shapeStatistics.Z_tetromino}/>
-      <Shape index={5} points={state.game.shapeStatistics.J_tetromino}/>
-      <Shape index={6} points={state.game.shapeStatistics.L_tetromino}/> 
-      <div className={styles.btn_container}>
-        <AiFillSound/>
-        <BsPauseBtnFill/>
-      </div>
-    </div>
-  );
-}
-
-const Shape = (props)=>{
-  
-  return(
-    <div className={styles.shape} style={{marginLeft:`${props.points == -1 ? '2dvh':''}`}}>
-    <div style={{width:`${props.points == -1 ? '100%': '80%'}`}}>
-      {Pieces[props.index].shape.map((y,index)=>(
-	<div key={index} style={{width:"50%", display:"flex", flexDirection:"row"}}>
-	{y.map((x, index)=>(
-	  <div key={index} style={{width:"12px", height:"12px", backgroundColor:`${x == 2? Pieces[props.index].color : ''}`, border:`${x == 2? '1px solid black' : ''}`}}></div>
-	))}
+    <div className={styles.game}>
+      <main className={styles.board} tabIndex={0} onKeyDown={e=>{handleKey(e);}}>
+    {
+      state.game.board.map((row, index)=>(
+	<div key={index} className={styles.row}>
+	  {row.map((cell, index)=>(
+	    <div style={{backgroundColor:`${cell == 1 ? '#2b2919': cell == 2? '#2b2919': ''}`, borderColor:`${cell == 2 ? '#cccfb2':'#2b2919'}`}} key={index} className={styles.cell}></div>
+	  ))}
 	</div>
-      ))}
-  </div>
-  {props.points != -1 ?
-    <div style={{width:"20%"}}>
-     <p>{props.points}</p>   
-    </div>:<></>
-  }
-   </div>
-  );
-}
-
-const StatisticsR = ()=>{
-  const {state, dispatch} = useContext(GlobalStateContext);
-  return(
-    <div className={styles.play_container}>
-      <div className={styles.player_container}>
-        <div className={styles.player_info}>
-          <h3>{`PLAYER`}</h3>
-          <h4>{state?.currentPlayer?.p_name}</h4>
+      ))
+    }
+      </main>
+      <aside>
+        <div className={styles.infoBox}>
+          <h4><b>SCORE</b></h4>
+          <p>{state.game.score}</p>
         </div>
-        <div className={styles.player_info}>
-          <h3>{`TOP`}</h3>
-          <h4>{state?.currentPlayer?.topPoints}</h4>
+        <div className={styles.infoBox}>
+          <h4><b>LEVEL</b></h4>
+          <p>{state.game.level}</p>
         </div>
-        <div className={styles.player_info}>
-          <h3>{`SCORE`}</h3>
-          <h4>{state?.game?.score}</h4>
+        <div className={styles.infoBox}>
+          <h4><b>LINES</b></h4>
+          <p>{state.game.linesCleared}</p>
         </div>
-      </div>
-      <div className={styles.next_container}>
-        <h4>{`NEXT`}</h4>
-        <div><Shape index={state?.game?.nextPiece} points={-1}/></div>
-      </div>
-      <div className={styles.level_container}>
-        <h3>{`LEVEL`}</h3>
-        <h4>{state?.game?.level}</h4>
-      </div>
+        <div className={styles.shape}>
+          {Pieces[state?.game?.nextPiece].shape.map((row, index)=>(
+	    <div key={index} className={styles.row} style={{justifyContent:'center', alignItems:'center'}}>
+	      {row.map((cell, index)=>(
+		<div  key={index} className={styles.cell} style={{backgroundColor:`${cell == 2 ? '#2b2919': ''}`, borderColor:`${cell == 2 ? '#cccfb2': ''}`, border:`${cell == 2 ? '0.1px solid #cccfb2': 'none'}`}}></div>
+	      ))}
+	    </div>
+	  ))}
+        </div>
+      </aside>
     </div>
   );
 }
-
-export default GameBoard;
-

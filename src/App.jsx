@@ -1,15 +1,11 @@
-import NavBar from './components/nav/Nav';
-import GameBoard from './components/GameBoard/GameBoard';
 import 'animate.css'
-import soundtrack from './assets/soundtrack.mp3';
+import BaseGame from './components/base/Base';
 
 function App() {
 
   return (
-    <div> 
-     <NavBar/>
-     <GameBoard />
-     <audio src={soundtrack} autoPlay={false} loop={true}/>
+    <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}> 
+     <BaseGame/>
     </div>
   )
 }
