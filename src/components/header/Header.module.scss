@@ -53,6 +53,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  margin: 1vh 0 1vh 0;
 }
 
 .screenHeader p{
@@ -80,7 +81,7 @@
 }
 
 .right, .left{
-  margin-top: 1.2vh;
+  //margin-top: 1.2vh;
   margin-left: 1.5vh;
 }
 
