@@ -109,6 +109,14 @@ const reducer = (state, action) =>{
 	  speed:newSpeed
 	}
       }
+    case 'SET_ROTATION':
+      return{
+	...state,
+	game:{
+	  ...state.game,
+	  rotation:action.payload
+	}
+      }
     default:
       return state;
   }
@@ -119,6 +127,7 @@ const initState = {
   currentPlayer:{},
   game:{
     board:[],
+    rotation:0,
     currentX:0,
     currentY:0,
     currentPiece:0,

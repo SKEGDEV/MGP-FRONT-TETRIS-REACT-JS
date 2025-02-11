@@ -1,10 +1,11 @@
 import 'animate.css'
 import BaseGame from './components/base/Base';
+import './index.scss';
 
 function App() {
 
   return (
-    <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}> 
+    <div className='container'> 
      <BaseGame/>
     </div>
   )

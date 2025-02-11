@@ -81,3 +81,24 @@
 .btnAbButton {
   width: 100%;
 }
+
+@media screen and (max-width: 900px) {
+  .btnCrossContainer {
+    width: 12vh;
+    height: 12vh;
+    button{
+      width: 4vh;
+      height: 4vh;
+    }
+  }
+
+  .btnAbContainer {
+    width: 14vh;
+    height: 7vh;
+    button{
+      width: 4.5vh;
+      height: 4.5vh;
+    }
+  }
+}
+

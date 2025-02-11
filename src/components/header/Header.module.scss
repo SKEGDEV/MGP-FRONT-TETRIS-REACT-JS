@@ -250,3 +250,71 @@
 .menu button:hover, .menu li:hover{
   font-size: 1.8rem;
 }
+
+@media screen and (max-width: 900px){
+  .screenHeader p{
+    font-size: .5rem;
+  }
+
+  .left .redLine, .left .blueLine{
+    width: 20vh;
+  }
+
+  .right .redLine, .right .blueLine{
+    width: 4vh;
+  }
+
+  .infoBox{
+    height: 3rem;
+  }
+
+  .infoBox h4, .infoBox p{
+    font-size: .7rem;
+  }
+
+  .infoBox p{
+    width: 80%;
+  }
+
+  .infoBox h4{
+    margin-top: .3rem;
+  }
+
+  .shape{
+    height: 4rem;
+  }
+
+  .game{
+    height: 23.5vh;
+  }
+
+  .game aside{
+    height: 23.5vh;
+  }
+
+  .screen{
+    width: 60%;
+    height: 23.5vh;
+    margin-top: 4vh;
+  }
+
+  .cell{
+    width: 1.5vh;
+    height: 1.5vh;
+  }
+  .menu h1{
+    font-size: 1.5rem;
+  }
+  .menu button{
+    font-size: 1rem;
+    margin-left: 4vh;
+
+    &:hover{
+      font-size: 1.2rem;
+    }
+  }
+
+  .titleNintendo{
+    font-size: .5rem;
+  }
+}

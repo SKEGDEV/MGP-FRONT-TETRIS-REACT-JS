@@ -1,19 +1,24 @@
 import styles from './midContent.module.scss';
+import {useMotion, useRotation} from '../../hooks/useMotion';
+
 
 export default function MidContent(){
+  const motion = useMotion();
+  const rotation = useRotation();
+
   return(
       <div className={styles.btnGameContainer}>
         <div className={styles.btnCrossContainer}>
-          <button id="arrowUp"></button>
+          <button onClick={()=>{rotation();}}></button>
           <div className={styles.btnCrossVertical}>
-            <button id="arrowLeft"></button>
-            <button id="arrowRight"></button>
+            <button onClick={()=>{motion(-1,0);}}></button>
+            <button onClick={()=>{motion(1,0);}}></button>
           </div>
-          <button id="arrowDown"></button>
+          <button onClick={()=>{motion(0,1);}}></button>
         </div>
         <div className={styles.btnAbContainer}>
           <div className={styles.btnAbButton}>
-            <button id="btn-b"></button>
+            <button></button>
             <button></button>
           </div>
           <div className={styles.btnAbLabel}>

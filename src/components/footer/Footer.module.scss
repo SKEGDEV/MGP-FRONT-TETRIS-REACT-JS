@@ -32,3 +32,15 @@
   font-size: 1.5vh;
   color: #2747a0;
 }
+
+@media screen and (max-width: 900px) {
+  .btnFooterForm {
+    button{
+      width: 4vh;
+      height: 1.5vh;
+    }
+    span{
+      font-size: 1vh;
+    }
+  }
+}
