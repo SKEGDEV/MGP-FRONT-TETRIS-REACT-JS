@@ -142,7 +142,7 @@
 }
 
 .game aside {
-  width: 30%;
+  width: 25%;
   background-color: #2a2b19;
   display: flex;
   flex-direction: column;
@@ -151,7 +151,7 @@
 }
 
 .game main {
-  width: 70%;
+  width: 50%;
   background-color: #cccfb2;
   display: flex;
   flex-direction: column;
@@ -160,7 +160,7 @@
 .infoBox {
   background-color: #cccfb2;
   width: 70%;
-  height: 15rem;
+  height: 5rem;
   margin-bottom: .5rem;
   border-radius: 1rem;
   display: flex;
@@ -183,9 +183,9 @@
   text-align: right;
 }
 
-.shape {
+.shape, .shapesStatistic {
   width: 70%;
-  height: 20rem;
+  height: 5rem;
   background-color: #cccfb2;
   border-radius: 1rem;
   display: flex;
@@ -204,6 +204,21 @@
   border: .1px solid #2b2919;
   width: 2vh;
   height: 2vh;
+}
+
+.shapesStatistic{
+  height: 20rem;
+  margin-bottom: .5rem;
+  .statisticShape{
+    margin-bottom: .1rem;
+  }
+  .cell{
+    width: .7vh;
+    height: .7vh;
+  }
+  p{
+    font-size: .7rem;
+  }
 }
 
 /*menu styles */
@@ -265,7 +280,8 @@
   }
 
   .infoBox{
-    height: 3rem;
+    height: 2rem;
+    border-radius: .5rem;
   }
 
   .infoBox h4, .infoBox p{
@@ -316,5 +332,27 @@
 
   .titleNintendo{
     font-size: .5rem;
+  }
+  .shape{
+    border-radius: .3rem;
+    height: 3rem;
+    .cell{
+      width: .8vh;
+      height: .8vh;
+    }
+  }
+  .shapesStatistic{
+    height: 15rem;
+    border-radius: .3rem;
+    .statisticShape{
+      margin-bottom: .1rem;
+    }
+    .cell{
+      width: .4vh;
+      height: .4vh;
+    }
+    p{
+      font-size: .5rem;
+    } 
   }
 }

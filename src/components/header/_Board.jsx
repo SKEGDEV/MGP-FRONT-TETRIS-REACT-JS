@@ -10,7 +10,7 @@ export default function Board(){
   const {game:{rotation}} = state;
   const motion = useMotion();
   const h_rotation = useRotation();
-  const startX = 6;
+  const startX = 4;
 
   const createBoard = (width, height)=>{
     let arrayBoard = [];
@@ -116,8 +116,8 @@ export default function Board(){
 
   //init effect to draw the board
   useEffect(()=>{
-    createBoard(15, 16);
-  },[/*state.game.isGameStarted*/]);
+    createBoard(12, 16);
+  },[]);
 
   //effect uses when the rotation change
   useEffect(()=>{
@@ -142,13 +142,33 @@ export default function Board(){
   }
 
   useInterval(()=>{
-    //if(Object.keys(state.currentPlayer).length === 0){return;}
     motion(0,1);
   },state.game.speed);
 
 
   return(
     <div className={styles.game}>
+      <aside>
+        <div className={styles.shapesStatistic}>
+         <Shape shapeIndex={0} className={styles.statisticShape}/>
+         <p>{state.game.shapeStatistics.I_tetromino}</p>
+         <Shape shapeIndex={1} className={styles.statisticShape}/>
+         <p>{state.game.shapeStatistics.O_tetromino}</p>
+         <Shape shapeIndex={2} className={styles.statisticShape}/>
+         <p>{state.game.shapeStatistics.T_tetromino}</p>
+         <Shape shapeIndex={3} className={styles.statisticShape}/>
+         <p>{state.game.shapeStatistics.S_tetromino}</p>
+         <Shape shapeIndex={4} className={styles.statisticShape}/>
+         <p>{state.game.shapeStatistics.Z_tetromino}</p>
+         <Shape shapeIndex={5} className={styles.statisticShape}/>
+         <p>{state.game.shapeStatistics.J_tetromino}</p>
+         <Shape shapeIndex={6} className={styles.statisticShape}/>
+         <p>{state.game.shapeStatistics.L_tetromino}</p>
+        </div>
+        <div className={styles.shape}>
+          <Shape shapeIndex={state.game.nextPiece}/>
+        </div>
+      </aside>
       <main className={styles.board} tabIndex={0} onKeyDown={e=>{handleKey(e);}}>
     {
       state.game.board.map((row, index)=>(
@@ -173,16 +193,23 @@ export default function Board(){
           <h4><b>LINES</b></h4>
           <p>{state.game.linesCleared}</p>
         </div>
-        <div className={styles.shape}>
-          {Pieces[state?.game?.nextPiece].shape.map((row, index)=>(
+      </aside>
+    </div>
+  );
+}
+
+
+function Shape({shapeIndex, className}){
+
+  return(
+    <div className={className}>
+    {Pieces[shapeIndex].shape.map((row, index)=>(
 	    <div key={index} className={styles.row} style={{justifyContent:'center', alignItems:'center'}}>
 	      {row.map((cell, index)=>(
 		<div  key={index} className={styles.cell} style={{backgroundColor:`${cell == 2 ? '#2b2919': ''}`, borderColor:`${cell == 2 ? '#cccfb2': ''}`, border:`${cell == 2 ? '0.1px solid #cccfb2': 'none'}`}}></div>
 	      ))}
 	    </div>
 	  ))}
-        </div>
-      </aside>
     </div>
-  );
+  )
 }
