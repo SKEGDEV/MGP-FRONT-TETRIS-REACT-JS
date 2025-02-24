@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import {GlobalStateContext} from '../components/state/State';
-import { Pieces } from '../constant/gameConstant';
+import { Pieces, actions } from '../constant/gameConstant';
 
 export function useMotion(){
   const {state, dispatch} = useContext(GlobalStateContext);

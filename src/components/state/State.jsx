@@ -1,5 +1,5 @@
-import { createContext, useReducer, useContext } from "react";
-import { Pieces } from "../../constant/gameConstant";
+import { createContext, useReducer } from "react";
+import { Pieces, actions } from "../../constant/gameConstant";
 
 const GlobalStateContext = createContext();
 
@@ -125,6 +125,9 @@ const reducer = (state, action) =>{
 const initState = {
   players:[],
   currentPlayer:{},
+  menu:{
+
+  },
   game:{
     board:[],
     rotation:0,

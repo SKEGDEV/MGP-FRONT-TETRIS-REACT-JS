@@ -1,6 +1,6 @@
 import styles from './Header.module.scss';
 import { useEffect, useContext } from 'react';
-import { Pieces } from '../../constant/gameConstant';
+import { Pieces, actions } from '../../constant/gameConstant';
 import { GlobalStateContext } from '../state/State';
 import { useInterval } from '../../hooks/useInterval';
 import { useMotion, useRotation } from '../../hooks/useMotion';
@@ -150,20 +150,34 @@ export default function Board(){
     <div className={styles.game}>
       <aside>
         <div className={styles.shapesStatistic}>
-         <Shape shapeIndex={0} className={styles.statisticShape}/>
-         <p>{state.game.shapeStatistics.I_tetromino}</p>
-         <Shape shapeIndex={1} className={styles.statisticShape}/>
-         <p>{state.game.shapeStatistics.O_tetromino}</p>
-         <Shape shapeIndex={2} className={styles.statisticShape}/>
-         <p>{state.game.shapeStatistics.T_tetromino}</p>
-         <Shape shapeIndex={3} className={styles.statisticShape}/>
-         <p>{state.game.shapeStatistics.S_tetromino}</p>
-         <Shape shapeIndex={4} className={styles.statisticShape}/>
-         <p>{state.game.shapeStatistics.Z_tetromino}</p>
-         <Shape shapeIndex={5} className={styles.statisticShape}/>
-         <p>{state.game.shapeStatistics.J_tetromino}</p>
-         <Shape shapeIndex={6} className={styles.statisticShape}/>
-         <p>{state.game.shapeStatistics.L_tetromino}</p>
+         <div className={styles.shapeContainer}>
+           <Shape shapeIndex={0} className={styles.statisticShape}/>
+           <p>{state.game.shapeStatistics.I_tetromino}</p>
+         </div>
+         <div className={styles.shapeContainer}>
+           <Shape shapeIndex={1} className={styles.statisticShape}/>
+           <p>{state.game.shapeStatistics.O_tetromino}</p>
+         </div>
+         <div className={styles.shapeContainer}>
+           <Shape shapeIndex={2} className={styles.statisticShape}/>
+           <p>{state.game.shapeStatistics.T_tetromino}</p>
+         </div>
+         <div className={styles.shapeContainer}>
+           <Shape shapeIndex={3} className={styles.statisticShape}/>
+           <p>{state.game.shapeStatistics.S_tetromino}</p>
+         </div>
+         <div className={styles.shapeContainer}>
+           <Shape shapeIndex={4} className={styles.statisticShape}/>
+           <p>{state.game.shapeStatistics.Z_tetromino}</p>
+         </div>
+         <div className={styles.shapeContainer}>
+           <Shape shapeIndex={5} className={styles.statisticShape}/>
+           <p>{state.game.shapeStatistics.J_tetromino}</p>
+         </div>
+         <div className={styles.shapeContainer}>
+           <Shape shapeIndex={6} className={styles.statisticShape}/>
+           <p>{state.game.shapeStatistics.L_tetromino}</p>
+         </div>
         </div>
         <div className={styles.shape}>
           <Shape shapeIndex={state.game.nextPiece}/>
