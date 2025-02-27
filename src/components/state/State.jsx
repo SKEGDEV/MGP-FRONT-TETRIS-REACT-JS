@@ -5,7 +5,7 @@ const GlobalStateContext = createContext();
 
 const reducer = (state, action) =>{
   switch(action.type){ 
-    case 'SET_BOARD':
+    case actions.SET_BOARD:
       return{
 	...state,
 	game:{
@@ -13,7 +13,7 @@ const reducer = (state, action) =>{
 	  board: action.payload
 	}
       }
-    case 'SET_POSITION':
+    case actions.SET_POSITION:
       let currentShape = action?.payload?.change ? state.game.nextPiece : state.game.currentPiece;
       let nextShape = action?.payload?.change ? Math.floor(Math.random()*7) : state.game.nextPiece; 
       let newStatistic = action?.payload?.change ? state.game.shapeStatistics[Pieces[currentShape].name] + 1 : state.game.shapeStatistics[Pieces[currentShape].name];
@@ -31,7 +31,7 @@ const reducer = (state, action) =>{
 	  }
 	}
       }
-    case 'CREATE_PLAYER':
+    case actions.CREATE_PLAYER:
       let newArrayPlayers = [...state.players, action.payload];
       const newPlayer = Object.keys(state.currentPlayer).length === 0 ? action.payload : state.currentPlayer;
       return{
@@ -39,12 +39,12 @@ const reducer = (state, action) =>{
 	players:newArrayPlayers,
 	currentPlayer: newPlayer
       }
-    case 'SET_PLAYER':
+    case actions.SET_PLAYER:
       return{
 	...state,
 	currentPlayer:state.players[action.index]
       }
-    case 'IS_GAME_OVER':
+    case actions.IS_GAME_OVER:
       const newPlayerScore =(state.game.score > state.currentPlayer.topPoints) ? state.game.score : state.currentPlayer.topPoints;
       const indexCurrentPlayer = state.players.findIndex(x => x.p_name === state.currentPlayer.p_name);   
       let updateArrayPlayers = state.players;
@@ -76,7 +76,7 @@ const reducer = (state, action) =>{
 	  } 
 	}
       }
-    case 'START_GAME':
+    case actions.START_GAME:
       return{
 	...state,
 	game:{
@@ -84,7 +84,7 @@ const reducer = (state, action) =>{
 	  isGameStarted:true
 	}
       }
-    case 'OPEN_CLOSE_START_MODAL':
+    case actions.OPEN_CLOSE_START_MODAL:
       return{
 	...state,
 	game:{
@@ -92,7 +92,7 @@ const reducer = (state, action) =>{
 	  isModalStartOpen:!state.game.isModalStartOpen
 	}
       }
-    case 'SET_STATISTICS_GAME':
+    case actions.SET_STATISTICS_GAME:
       const newLevel = Math.floor(state.game.linesCleared/3)+1;
       let newSpeed = state.game.speed
       if(newLevel !== state.game.level){
@@ -109,7 +109,7 @@ const reducer = (state, action) =>{
 	  speed:newSpeed
 	}
       }
-    case 'SET_ROTATION':
+    case actions.SET_ROTATION:
       return{
 	...state,
 	game:{
@@ -126,7 +126,6 @@ const initState = {
   players:[],
   currentPlayer:{},
   menu:{
-
   },
   game:{
     board:[],

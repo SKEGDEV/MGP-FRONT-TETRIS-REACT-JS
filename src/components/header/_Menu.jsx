@@ -5,9 +5,9 @@ export default function Menu(){
     <div className={styles.menu}>
       <h1>MENU</h1>
       <ul>
-        <li><button>--&gt; PLAY</button></li>
-        <li><button>--&gt; APARIENCE</button></li>
-        <li><button>--&gt; ABOUT</button></li>
+        <li><button disabled>--&gt; PLAY</button></li>
+        <li><button disabled>--&gt; APARIENCE</button></li>
+        <li><button disabled>--&gt; ABOUT</button></li>
       </ul>
     </div>
   );

@@ -75,3 +75,7 @@ export const actions = {
   SET_STATISTICS_GAME: 'SET_STATISTICS_GAME',
   SET_ROTATION: 'SET_ROTATION'
 }
+
+export const Skins = {
+
+}

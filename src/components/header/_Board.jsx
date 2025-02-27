@@ -31,7 +31,7 @@ export default function Board(){
   }
   //useEffect uses for draw new shape and checkColision
   const drawPiece = (board)=>{
-    dispatch({type:'SET_ROTATION', payload:0});
+    dispatch({type:actions.SET_ROTATION, payload:0});
     let newBoard = board;
     let current = state.game.nextPiece;
     const piece = Pieces[current];
@@ -48,10 +48,10 @@ export default function Board(){
     const isOnBotton = board[piece.dimensions[0]].slice(startX, startX + piece.dimensions[1]-1).includes(1);
     if(isOnBotton){
       newBoard = newBoard.map(d=>d.map(value => ((value == 2 || value == 1) && 0)));
-      dispatch({type:'IS_GAME_OVER'});
+      dispatch({type:actions.IS_GAME_OVER});
     } 
-    dispatch({type:'SET_POSITION', payload:{x:startX, y:0, change:true}});
-    dispatch({type:'SET_BOARD', payload:newBoard});
+    dispatch({type:actions.SET_POSITION, payload:{x:startX, y:0, change:true}});
+    dispatch({type:actions.SET_BOARD, payload:newBoard});
   }
 
   useEffect(()=>{ 
@@ -105,8 +105,8 @@ export default function Board(){
 	newBoard[i] = newBoard[i-3];
       }
     }
-    dispatch({type:'SET_BOARD', payload:newBoard});
-    dispatch({type:'SET_STATISTICS_GAME', linesCleared:matchLine.length});
+    dispatch({type:actions.SET_BOARD, payload:newBoard});
+    dispatch({type:actions.SET_STATISTICS_GAME, linesCleared:matchLine.length});
   }
 
   const solidifyShape = ()=>{
@@ -183,7 +183,7 @@ export default function Board(){
           <Shape shapeIndex={state.game.nextPiece}/>
         </div>
       </aside>
-      <main className={styles.board} tabIndex={0} onKeyDown={e=>{handleKey(e);}}>
+      <main className={styles.board} tabIndex={0}  onKeyDown={e=>{handleKey(e);}}>
     {
       state.game.board.map((row, index)=>(
 	<div key={index} className={styles.row}>

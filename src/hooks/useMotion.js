@@ -24,7 +24,7 @@ export function useMotion(){
                  rotation === 1 ? piece.dimensions[1]: 0;
     let boardX = state.game.currentX + addX; 
     let boardY = state.game.currentY + addY;
-    dispatch({type:'SET_POSITION', payload:{x:boardX, y:boardY}});
+    dispatch({type:actions.SET_POSITION, payload:{x:boardX, y:boardY}});
     let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value))); 
     let value = 0;
     if(rotation >= 2){
@@ -56,7 +56,7 @@ export function useMotion(){
 	shapeY++;
       }
     }
-    dispatch({type:'SET_BOARD', payload:newBoard});
+    dispatch({type:actions.SET_BOARD, payload:newBoard});
   }
 
   return moveShape;
@@ -72,7 +72,7 @@ export function useRotation(){
     if(newShapeDimension > state.game.board[0].length){
       return;
     }
-    dispatch({type:'SET_ROTATION', payload:newRotation});
+    dispatch({type:actions.SET_ROTATION, payload:newRotation});
   }
 
   return rotatePiece;

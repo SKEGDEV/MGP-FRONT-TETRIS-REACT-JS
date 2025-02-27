@@ -26,7 +26,24 @@
   border: none;
   outline: none;
   background-color: #373736;
+  border-left: 0.5vh solid #000103;
   cursor: pointer;
+  &::after {
+    content: '';
+    width: 2.5vh;
+    height: .5vh;
+    background-color: #5A5A58;
+    position: absolute;
+    margin: -0.7vh 0 0 -1vh;
+  }
+  &::before {
+    content: '';
+    width: 2.5vh;
+    height: .5vh;
+    background-color: #5A5A58;
+    position: absolute;
+    margin: .2vh 0 0 -1vh;
+  }
 }
 
 .btnCrossVertical {
@@ -55,11 +72,28 @@
   border-radius: 50%;
   border: none;
   outline: none;
+  border-left: 0.5vh solid #000103;
   cursor: pointer;
-}
-
-.btnAbButton button {
   background-color: #c1247d;
+  &::after {
+    content: '';
+    width: .5vh;
+    height: .5vh;
+    background-color: #E052A1;
+    position: absolute;
+    margin: -0.7vh 0 0 -1vh;
+    border-radius: 50%;
+  }
+  &::before {
+    content: '';
+    width: .5vh;
+    height: .5vh;
+    background-color: #E052A1;
+    position: absolute;
+    margin: .2vh  0 -1vh;
+    border-radius: 50%;
+  }
+
 }
 
 .btnAbLabel span {
