@@ -109,6 +109,27 @@ const reducer = (state, action) =>{
 	  speed:newSpeed
 	}
       }
+    case actions.SET_MENU_OPTIONS:
+      return{
+	...state,
+	menu:{
+	  ...state.menu,
+	  [action.payload.name]:action.payload.value
+	}
+      }
+    case actions.OPEN_SUB_MENU:
+      return{
+	...state,
+	menu:{
+	  ...state.menu,
+	  onSelectSubMenu:state.menu.subMenu.open? -1: 0,
+	  subMenu:{
+	    ...state.menu.subMenu,
+	    open:!state.menu.subMenu.open,
+	    index:state.menu.subMenu.open ? -1 : action.payload
+	  }
+	}
+      }
     case actions.SET_ROTATION:
       return{
 	...state,
@@ -126,7 +147,15 @@ const initState = {
   players:[],
   currentPlayer:{},
   menu:{
+    isSelectedMenu:0,
+    onSelectMenu:1,
+    onSelectSubMenu:-1,
+    subMenu:{
+      open:false,
+      index:-1
+    }
   },
+  skin:0,
   game:{
     board:[],
     rotation:0,

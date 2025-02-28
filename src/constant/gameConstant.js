@@ -1,3 +1,4 @@
+import styles from '../components/base/base.module.scss';
 
 export const Pieces = {
   0:{
@@ -73,9 +74,76 @@ export const actions = {
   START_GAME: 'START_GAME',
   OPEN_CLOSE_START_MODAL: 'OPEN_CLOSE_START_MODAL',
   SET_STATISTICS_GAME: 'SET_STATISTICS_GAME',
-  SET_ROTATION: 'SET_ROTATION'
+  SET_ROTATION: 'SET_ROTATION',
+  SET_MENU_OPTIONS: 'SET_MENU_OPTIONS',
+  OPEN_SUB_MENU: 'OPEN_SUB_MENU',
 }
 
-export const Skins = {
-
-}
+export const MenuItems = [
+  {
+    name:'home',
+    subMenu:[],
+    type: 'screen'
+  },
+  {
+    name:'play',
+    subMenu:[],
+    type: 'screen'
+  },
+  {
+    name:'aparience',
+    type: 'submenu',
+    subMenu:[
+      {
+	name:'default',
+	type:'skin',
+        className: styles.default,
+      },
+      {
+	name:'eda & king',
+	type: 'skin',
+	className: styles.eda_king
+      },
+      {
+	name:'king',
+	type: 'skin',
+	className: styles.king
+      },
+      {
+	name:'nes control',
+	type: 'skin',
+	className: styles.nes
+      },
+      {
+	name:'rick & morty 1',
+	type: 'skin',
+	className: styles.rick_morty_1	
+      },
+      {
+	name:'rick & morty 2',
+	type: 'skin',
+	className: styles.rick_morty_2
+      },
+      {
+	name:'trinity',
+	type: 'skin',
+	className: styles.trinity
+      },
+      {
+	name:'miles',
+	type: 'skin',
+	className: styles.miles
+      },
+      {
+	name:'sweetie fox',
+	type: 'skinP',
+	className: styles.sweetie_fox
+      }
+    ]
+  },
+  {
+    name:'about',
+    subMenu:[],
+    type: 'screen'
+  }
+]

@@ -32,7 +32,7 @@ export default function HeaderGameBoy(){
               <p>BATERY</p>
             </div>
             <div className={styles.screen}>
-              <Board/>
+              <Menu/>
             </div>
           </div>
         </div>
