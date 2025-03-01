@@ -138,6 +138,11 @@ const reducer = (state, action) =>{
 	  rotation:action.payload
 	}
       }
+    case actions.SET_SKIN:
+      return{
+	...state,
+	skin:action.payload
+      }
     default:
       return state;
   }

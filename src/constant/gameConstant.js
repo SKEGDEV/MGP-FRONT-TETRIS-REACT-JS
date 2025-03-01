@@ -77,6 +77,7 @@ export const actions = {
   SET_ROTATION: 'SET_ROTATION',
   SET_MENU_OPTIONS: 'SET_MENU_OPTIONS',
   OPEN_SUB_MENU: 'OPEN_SUB_MENU',
+  SET_SKIN: 'SET_SKIN',
 }
 
 export const MenuItems = [
