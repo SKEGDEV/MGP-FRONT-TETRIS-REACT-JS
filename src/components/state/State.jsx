@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { Pieces, actions } from "../../constant/gameConstant";
 
 const GlobalStateContext = createContext();
@@ -160,7 +160,7 @@ const initState = {
       index:-1
     }
   },
-  skin:0,
+  skin:localStorage.getItem('skin') || 0,
   game:{
     board:[],
     rotation:0,

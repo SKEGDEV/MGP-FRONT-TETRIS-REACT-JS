@@ -1,6 +1,7 @@
 import styles from './Header.module.scss';
 import Board from './_Board';
 import Menu from './_Menu';
+import About from './_About';
 import {useContext} from 'react';
 import {GlobalStateContext} from '../state/State';
 
@@ -35,7 +36,8 @@ export default function HeaderGameBoy(){
               <p>BATERY</p>
             </div>
             <div className={styles.screen}>
-            {state?.menu?.isSelectedMenu == 0 ? <Menu/>:<Board/>}
+            {state?.menu?.isSelectedMenu == 0 ? <Menu/>:
+	     state?.menu?.isSelectedMenu == 1 ? <Board/>: <About/>}
             </div>
           </div>
         </div>

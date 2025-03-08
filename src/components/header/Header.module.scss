@@ -256,7 +256,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   scroolbar-width: none;
   -ms-overflow-style: none;
@@ -293,9 +293,43 @@
   transition: all .3s ease-in-out;
 }
 
-
+/*About styles*/
+.about_container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #cccfb2;
+  p{
+    text-align: justify;
+    width: 80%;
+    margin-left: 10%;
+    font-size: 1.5vh;
+  }
+  h1{
+    margin: 1.5vh 0 1.5vh 0;
+    font-size: 2vh;
+  }
+  .footer_about{
+    p{
+      margin-top: 2vh;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
 
 @media screen and (max-width: 900px){
+  .about_container{
+    h1{
+      font-size: 1.5vh;
+    }
+    p{
+      font-size: 1vh;
+    }
+  }
   .screenHeader p{
     font-size: .5rem;
   }

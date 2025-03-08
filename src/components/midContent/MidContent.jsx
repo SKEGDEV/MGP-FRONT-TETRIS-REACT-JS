@@ -94,7 +94,15 @@ export default function MidContent(){
   }
 
   const handleButtonB = ()=>{
-
+    if(state?.menu?.isSelectedMenu != 0){
+      dispatch({
+	type:actions.SET_MENU_OPTIONS,
+	payload:{
+	  name:'isSelectedMenu',
+	  value:0
+	}
+      });
+    }
   }
  
   return(
