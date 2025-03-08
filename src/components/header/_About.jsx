@@ -8,7 +8,8 @@ export default function About(){
         <h1>Tetris</h1>
       </div>
       <div>
-        <p>{`Hello!, I'm Edu full stack developer with 3 years of experience if you like my job and want know more about me, this is my github: `}
+        <p>{`Hello!, this is an application created for my web portfolio using React JS <VITE> all states are managed for useReducer,
+	  if you likes my job and you want know more about me this is my `}
         <a href='https://github.com/SKEGDEV'>Github</a></p> 
       </div>
       <div className={styles.footer_about}>
