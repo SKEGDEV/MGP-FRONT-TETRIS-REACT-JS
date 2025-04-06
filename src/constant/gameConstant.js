@@ -87,53 +87,63 @@ export const MenuItems = [
     type: 'screen'
   },
   {
-    name:'play',
+    name:'about',
     subMenu:[],
-    type: 'screen'
+    type: 'screen',
+    translateX:'-33%',
   },
   {
     name:'aparience',
     type: 'submenu',
+    translateX:'0%',
     subMenu:[
       {
 	name:'default',
 	type:'skin',
         className: styles.default,
+	translateY: '0vh',
       },
       {
 	name:'eda & king',
 	type: 'skin',
-	className: styles.eda_king
+	className: styles.eda_king,
+	translateY: '-7vh',
       },
       {
 	name:'king',
 	type: 'skin',
-	className: styles.king
+	className: styles.king,
+	translateY: '-14vh',
       },
       {
 	name:'nes control',
 	type: 'skin',
-	className: styles.nes
+	className: styles.nes,
+	translateY: '-21vh',
       },
       {
 	name:'rick & morty 1',
 	type: 'skin',
-	className: styles.rick_morty_1	
+	className: styles.rick_morty_1,
+	translateY: '-28vh',	
       },
       {
 	name:'rick & morty 2',
 	type: 'skin',
-	className: styles.rick_morty_2
+	className: styles.rick_morty_2,
+	translateY: '-35vh',
       },
       {
 	name:'trinity',
 	type: 'skin',
-	className: styles.trinity
+	className: styles.trinity,
+	translateY: '-42vh',
       },
       {
 	name:'miles',
 	type: 'skin',
-	className: styles.miles
+	className: styles.miles,
+	translateY: '-49vh',
       },
       {
 	name:'sweetie fox',
@@ -143,8 +153,9 @@ export const MenuItems = [
     ]
   },
   {
-    name:'about',
+    name:'play',
     subMenu:[],
-    type: 'screen'
+    type: 'screen',
+    translateX:'33%',
   }
 ]

@@ -12,19 +12,17 @@ export default function MidContent(){
   const {state, dispatch} = useContext(GlobalStateContext);
 
   const handleArrowUp = ()=>{
-    if(state?.menu?.isSelectedMenu == 0){
-      const newOnSelectMenu = state?.menu?.onSelectSubMenu != -1?
-	(state?.menu?.onSelectSubMenu < MenuItems[state?.menu?.onSelectMenu].subMenu.length ? state?.menu?.onSelectSubMenu - 1 : -2)
-	:(state?.menu?.onSelectMenu == 1 ? 3 : (state?.menu?.onSelectMenu - 1));
-      const name = (state?.menu?.onSelectSubMenu != -1 && newOnSelectMenu != -1) ? 'onSelectSubMenu' : 'onSelectMenu';
+    if(state?.menu?.isSelectedMenu == 0 && state?.menu?.onSelectSubMenu != -1){
+      const newOnSelectMenu = (state?.menu?.onSelectSubMenu != 0 ? state?.menu?.onSelectSubMenu - 1 : -2); 
+      const name = 'onSelectSubMenu';
       dispatch({
 	type:actions.SET_MENU_OPTIONS,
 	payload:{
 	  name:name,
-	  value:newOnSelectMenu == -1 ? state?.menu?.onSelectMenu: newOnSelectMenu
+	  value: newOnSelectMenu
 	}
       });
-      if(newOnSelectMenu == -1){
+      if(newOnSelectMenu == -2){
 	dispatch({
 	  type:actions.OPEN_SUB_MENU,
 	  payload:0
@@ -36,17 +34,15 @@ export default function MidContent(){
   }
 
   const handleArrowDown = ()=>{
-    if(state?.menu?.isSelectedMenu == 0){
+    if(state?.menu?.isSelectedMenu == 0 && state?.menu?.onSelectSubMenu != -1){
       const isSubMenuLessThanMenuItems = state?.menu?.onSelectSubMenu < MenuItems[state?.menu?.onSelectMenu].subMenu.filter(item => item.type != 'skinP').length - 1;
-      const newOnSelectMenu = state?.menu?.onSelectSubMenu != -1?
-	( isSubMenuLessThanMenuItems ? state?.menu?.onSelectSubMenu + 1 : -2)
-	:(state?.menu?.onSelectMenu == 3 ? 1 : (state?.menu?.onSelectMenu + 1));
-      const name = (state?.menu?.onSelectSubMenu != -1 && isSubMenuLessThanMenuItems) ? 'onSelectSubMenu' : 'onSelectMenu';
+      const newOnSelectMenu = ( isSubMenuLessThanMenuItems ? state?.menu?.onSelectSubMenu + 1 : -2) 
+      const name = 'onSelectSubMenu';
       dispatch({
 	type:actions.SET_MENU_OPTIONS,
 	payload:{
 	  name:name,
-	  value:newOnSelectMenu == -2 ? (state?.menu?.onSelectMenu == 3 ? 1 : (state?.menu?.onSelectMenu + 1)) : newOnSelectMenu
+	  value:newOnSelectMenu
 	}
       });
       if(newOnSelectMenu == -2){
@@ -61,10 +57,46 @@ export default function MidContent(){
   }
 
   const handleArrowLeft = ()=>{
+    if(state?.menu?.isSelectedMenu == 0){
+      if(state?.menu?.onSelectSubMenu != -1){
+	dispatch({
+	  type:actions.OPEN_SUB_MENU,
+	  payload:0
+	});
+      }
+      const newOnSelectMenu = (state?.menu?.onSelectMenu == 3 ? 1 : (state?.menu?.onSelectMenu + 1));
+      const name = 'onSelectMenu';
+      dispatch({
+	type:actions.SET_MENU_OPTIONS,
+	payload:{
+	  name:name,
+	  value:newOnSelectMenu
+	}
+      });
+      return;
+    }
     motion(-1,0);
   }
 
   const handleArrowRight = ()=>{
+    if(state?.menu?.isSelectedMenu == 0){
+      if(state?.menu?.onSelectSubMenu != -1){
+	dispatch({
+	  type:actions.OPEN_SUB_MENU,
+	  payload:0
+	});
+      }
+      const newOnSelectMenu = (state?.menu?.onSelectMenu == 1 ? 3 : (state?.menu?.onSelectMenu - 1));
+      const name = 'onSelectMenu';
+      dispatch({
+	type:actions.SET_MENU_OPTIONS,
+	payload:{
+	  name:name,
+	  value:newOnSelectMenu
+	}
+      });
+      return;
+    }
     motion(1,0);
   }
 

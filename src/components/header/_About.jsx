@@ -10,7 +10,7 @@ export default function About(){
       <div>
         <p>{`Hello!, this is an application created for my web portfolio using React JS <VITE> all states are managed for useReducer,
 	  if you like my job and if you want to know about me this is my `}
-        <a href='https://github.com/SKEGDEV'>Github</a></p> 
+        <a target='_blank' href='https://github.com/SKEGDEV'>Github</a></p> 
       </div>
       <div className={styles.footer_about}>
         <p>Press <b>B</b> to back home</p>

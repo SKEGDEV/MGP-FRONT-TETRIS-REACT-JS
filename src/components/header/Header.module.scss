@@ -269,23 +269,52 @@
   display: none;
 }
 
-.menu ul{
+.menu .menu_ul{
   list-style: none;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-around;
+  transition: all .3s ease-in-out;
+}
+
+.menu .menu_ul li{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .sub_menu{
-  margin-left: 1.5vh;
-  overflow-y: hidden;
   transition: all .3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 2vh;
+  transition: all .3s ease-in-out;
+  li{
+    width: 100%;
+    margin-bottom: 1vh;
+    transition: all .3s ease-in-out;
+  }
 }
 
 .menu button{
   outline: none;
   border: none;
   background-color: transparent;
+  border-top: 1vh solid #2b2919;
+  border-bottom: 1vh solid #2b2919;
+  padding: 1vh 0 1vh 0;
+  width: 100%;
+}
+
+.sub_menu button{
+  border: none;
+  border-left: 1vh solid #2b2919;
+  border-right: 1vh solid #2b2919;
+  padding: 2vh 0 2vh 0;
+  width: calc(100% - 1vh);
 }
 
 .menu button, .menu li{
@@ -322,6 +351,9 @@
 }
 
 @media screen and (max-width: 900px){
+  .menu button{
+    font-size: 1.6vh;
+  }
   .about_container{
     h1{
       font-size: 1.5vh;
@@ -384,16 +416,6 @@
   .menu h1{
     font-size: 1.5vh;
   }
-  
-  .menu button{
-    font-size: 1.5vh;
-    margin-left: 4vh;
-
-    &:hover{
-      font-size: 1.7vh;
-    }
-  }
-
   .titleNintendo{
     font-size: .5rem;
   }
