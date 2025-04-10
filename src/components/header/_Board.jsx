@@ -125,22 +125,7 @@ export default function Board(){
       motion(0,0);
     } 
   },[rotation]);
-
-  const handleKey = (event)=>{
-    if(event.key === 'ArrowLeft'){
-      motion(-1, 0);
-    }
-    if(event.key === 'ArrowRight'){
-      motion(1, 0);
-    }
-    if(event.key === 'ArrowUp'){
-      h_rotation();
-    }
-    if(event.key === 'ArrowDown'){
-      motion(0, 1);
-    }
-  }
-
+ 
   useInterval(()=>{
     motion(0,1);
   },state.game.speed);
@@ -183,7 +168,7 @@ export default function Board(){
           <Shape shapeIndex={state.game.nextPiece}/>
         </div>
       </aside>
-      <main className={styles.board} tabIndex={0}  onKeyDown={e=>{handleKey(e);}}>
+      <main className={styles.board}>
     {
       state.game.board.map((row, index)=>(
 	<div key={index} className={styles.row}>

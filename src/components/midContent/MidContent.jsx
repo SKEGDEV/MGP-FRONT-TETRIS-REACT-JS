@@ -1,140 +1,35 @@
 import styles from './midContent.module.scss';
-import {useMotion, useRotation} from '../../hooks/useMotion';
-import {useContext} from 'react';
-import {GlobalStateContext} from '../state/State';
-import { actions, MenuItems } from '../../constant/gameConstant';
+import {useMotion, useRotation, useKey} from '../../hooks/useMotion';
 
 
 
 export default function MidContent(){
   const motion = useMotion();
   const rotation = useRotation();
-  const {state, dispatch} = useContext(GlobalStateContext);
+  const pressKey = useKey();
 
   const handleArrowUp = ()=>{
-    if(state?.menu?.isSelectedMenu == 0 && state?.menu?.onSelectSubMenu != -1){
-      const newOnSelectMenu = (state?.menu?.onSelectSubMenu != 0 ? state?.menu?.onSelectSubMenu - 1 : -2); 
-      const name = 'onSelectSubMenu';
-      dispatch({
-	type:actions.SET_MENU_OPTIONS,
-	payload:{
-	  name:name,
-	  value: newOnSelectMenu
-	}
-      });
-      if(newOnSelectMenu == -2){
-	dispatch({
-	  type:actions.OPEN_SUB_MENU,
-	  payload:0
-	});
-      }
-      return;
-    }
     rotation();
   }
 
   const handleArrowDown = ()=>{
-    if(state?.menu?.isSelectedMenu == 0 && state?.menu?.onSelectSubMenu != -1){
-      const isSubMenuLessThanMenuItems = state?.menu?.onSelectSubMenu < MenuItems[state?.menu?.onSelectMenu].subMenu.filter(item => item.type != 'skinP').length - 1;
-      const newOnSelectMenu = ( isSubMenuLessThanMenuItems ? state?.menu?.onSelectSubMenu + 1 : -2) 
-      const name = 'onSelectSubMenu';
-      dispatch({
-	type:actions.SET_MENU_OPTIONS,
-	payload:{
-	  name:name,
-	  value:newOnSelectMenu
-	}
-      });
-      if(newOnSelectMenu == -2){
-	dispatch({
-	  type:actions.OPEN_SUB_MENU,
-	  payload:0
-	});
-      }
-      return;
-    }
     motion(0,1);
   }
 
   const handleArrowLeft = ()=>{
-    if(state?.menu?.isSelectedMenu == 0){
-      if(state?.menu?.onSelectSubMenu != -1){
-	dispatch({
-	  type:actions.OPEN_SUB_MENU,
-	  payload:0
-	});
-      }
-      const newOnSelectMenu = (state?.menu?.onSelectMenu == 3 ? 1 : (state?.menu?.onSelectMenu + 1));
-      const name = 'onSelectMenu';
-      dispatch({
-	type:actions.SET_MENU_OPTIONS,
-	payload:{
-	  name:name,
-	  value:newOnSelectMenu
-	}
-      });
-      return;
-    }
     motion(-1,0);
   }
 
   const handleArrowRight = ()=>{
-    if(state?.menu?.isSelectedMenu == 0){
-      if(state?.menu?.onSelectSubMenu != -1){
-	dispatch({
-	  type:actions.OPEN_SUB_MENU,
-	  payload:0
-	});
-      }
-      const newOnSelectMenu = (state?.menu?.onSelectMenu == 1 ? 3 : (state?.menu?.onSelectMenu - 1));
-      const name = 'onSelectMenu';
-      dispatch({
-	type:actions.SET_MENU_OPTIONS,
-	payload:{
-	  name:name,
-	  value:newOnSelectMenu
-	}
-      });
-      return;
-    }
     motion(1,0);
   }
 
   const handleButtonA = ()=>{
-    const selectedItem = state?.menu?.onSelectSubMenu == -1 ? MenuItems[state?.menu?.onSelectMenu] : MenuItems[state?.menu?.onSelectMenu].subMenu[state?.menu?.onSelectSubMenu];  
-    if(selectedItem.type === 'submenu'){
-      dispatch({
-	type:actions.OPEN_SUB_MENU,
-	payload:state?.menu?.onSelectMenu 
-      });
-    }
-    if(selectedItem.type === 'skin'){
-      dispatch({
-	type:actions.SET_SKIN,
-	payload:state?.menu?.onSelectSubMenu
-      });
-    }
-    if(selectedItem.type === 'screen'){
-      dispatch({
-	type:actions.SET_MENU_OPTIONS,
-	payload:{
-	  name:'isSelectedMenu',
-	  value:state?.menu?.onSelectMenu
-	}
-      });
-    }
+    pressKey('a');
   }
 
   const handleButtonB = ()=>{
-    if(state?.menu?.isSelectedMenu != 0){
-      dispatch({
-	type:actions.SET_MENU_OPTIONS,
-	payload:{
-	  name:'isSelectedMenu',
-	  value:0
-	}
-      });
-    }
+    pressKey('b');
   }
  
   return(
