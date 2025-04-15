@@ -2,11 +2,24 @@ import styles from './Header.module.scss';
 import Board from './_Board';
 import Menu from './_Menu';
 import About from './_About';
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import {GlobalStateContext} from '../state/State';
+import soundtrack from '../../assets/soundtrack.mp3';
+import {useSound} from 'use-sound';
+import { MenuItems } from '../../constant/gameConstant';
 
 export default function HeaderGameBoy(){
   const {state, dispatch} = useContext(GlobalStateContext);
+  const [play, {stop}] = useSound(soundtrack, {loop: true, volume: 0.5});
+
+  useEffect(()=>{
+    if(state?.menu?.isSelectedMenu == 0){
+      stop();
+    }
+    if(state?.menu?.isSelectedMenu == 1){
+      play();
+    }
+  },[state?.menu?.isSelectedMenu]);
 
   return (
     <div className={styles.boardContainer}>
@@ -43,7 +56,7 @@ export default function HeaderGameBoy(){
         </div>
       </div>
       <div className={styles.titleNintendo}>
-        <h1>Nintendo GAME BOY</h1>
+        <h1 style={{color:`${MenuItems[2]?.subMenu[state?.skin]?.colorHeaderNintendo}`}}>Nintendo GAME BOY</h1>
       </div>
     </div>
   );

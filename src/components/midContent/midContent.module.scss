@@ -116,6 +116,38 @@
   width: 100%;
 }
 
+.Zelda{
+  .btnCrossContainer{
+    background-color: transparent;
+    button{
+      background-color: #f1faee;
+      border-color: #e63946;
+      &::after {
+        background-color: #e63946;
+      }
+      &::before {
+        background-color: #e63946;
+      }
+    }
+  }
+  .btnAbContainer{
+    background-color: transparent;
+    button{
+      background-color: #e63946;
+      border-color: #f1faee;
+      &::after {
+        background-color: #f1faee;
+      }
+      &::before {
+        background-color: #f1faee;
+      }
+    }
+    .btnAbLabel span{
+      color: #f1faee;
+    }
+  }
+}
+
 @media screen and (max-width: 900px) {
   .btnCrossContainer {
     width: 12vh;

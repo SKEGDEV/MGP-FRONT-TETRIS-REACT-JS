@@ -1,4 +1,7 @@
 import styles from '../components/base/base.module.scss';
+import stylesHeader from '../components/header/Header.module.scss';
+import stylesMidContent from '../components/midContent/midContent.module.scss';
+import stylesFooter from '../components/footer/Footer.module.scss';
 
 export const Pieces = {
   0:{
@@ -102,53 +105,80 @@ export const MenuItems = [
 	type:'skin',
         className: styles.default,
 	translateY: '0vh',
+	colorHeaderNintendo: '#012c9e',
+	classMidContent: '',
+	classFooter: '',
       },
       {
-	name:'eda & king',
+	name:'Final Fantasy',
 	type: 'skin',
 	className: styles.eda_king,
 	translateY: '-7vh',
+	classHeader: '',
+	classMidContent: '',
+	classFooter: '',
       },
       {
-	name:'king',
+	name:'Kindred 1',
 	type: 'skin',
 	className: styles.king,
 	translateY: '-14vh',
+	classHeader: '',
+	classMidContent: '',
+	classFooter: '',
       },
       {
 	name:'nes control',
 	type: 'skin',
 	className: styles.nes,
 	translateY: '-21vh',
+	classHeader: '',
+	classMidContent: '',
+	classFooter: '',
       },
       {
 	name:'rick & morty 1',
 	type: 'skin',
 	className: styles.rick_morty_1,
-	translateY: '-28vh',	
+	translateY: '-28vh',
+	classHeader: '',
+	classMidContent: '',
+	classFooter: '',	
       },
       {
 	name:'rick & morty 2',
 	type: 'skin',
 	className: styles.rick_morty_2,
 	translateY: '-35vh',
+	classHeader: '',
+	classMidContent: '',
+	classFooter: '',
       },
       {
-	name:'trinity',
+	name:'Kindred 2',
 	type: 'skin',
 	className: styles.trinity,
 	translateY: '-42vh',
+	classHeader: '',
+	classMidContent: '',
+	classFooter: '',
       },
       {
-	name:'miles',
+	name:'The legend of Zelda',
 	type: 'skin',
 	className: styles.miles,
 	translateY: '-49vh',
+	colorHeaderNintendo: '#f1faee',
+	classMidContent: stylesMidContent.Zelda,
+	classFooter: stylesFooter.Zelda,
       },
       {
 	name:'sweetie fox',
 	type: 'skinP',
-	className: styles.sweetie_fox
+	className: styles.sweetie_fox,
+	classHeader: '',
+	classMidContent: '',
+	classFooter: '',
       }
     ]
   },

@@ -1,5 +1,8 @@
 import styles from './midContent.module.scss';
 import {useMotion, useRotation, useKey} from '../../hooks/useMotion';
+import { MenuItems } from '../../constant/gameConstant';
+import { useContext } from 'react';
+import {GlobalStateContext} from '../state/State';
 
 
 
@@ -7,6 +10,7 @@ export default function MidContent(){
   const motion = useMotion();
   const rotation = useRotation();
   const pressKey = useKey();
+  const {state, dispatch} = useContext(GlobalStateContext); 
 
   const handleArrowUp = ()=>{
     rotation();
@@ -33,7 +37,7 @@ export default function MidContent(){
   }
  
   return(
-      <div className={styles.btnGameContainer}>
+      <div className={`${styles.btnGameContainer} ${MenuItems[2]?.subMenu[state?.skin]?.classMidContent}`}>
         <div className={styles.btnCrossContainer}>
           <button name='ArrowUp' onClick={handleArrowUp}></button>
           <div className={styles.btnCrossVertical}>

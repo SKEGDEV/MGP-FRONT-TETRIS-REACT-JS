@@ -3,13 +3,12 @@ import { useEffect, useContext } from 'react';
 import { Pieces, actions } from '../../constant/gameConstant';
 import { GlobalStateContext } from '../state/State';
 import { useInterval } from '../../hooks/useInterval';
-import { useMotion, useRotation } from '../../hooks/useMotion';
+import { useMotion } from '../../hooks/useMotion';
 
 export default function Board(){
   const {state, dispatch} = useContext(GlobalStateContext); 
   const {game:{rotation}} = state;
   const motion = useMotion();
-  const h_rotation = useRotation();
   const startX = 4;
 
   const createBoard = (width, height)=>{
@@ -129,7 +128,6 @@ export default function Board(){
   useInterval(()=>{
     motion(0,1);
   },state.game.speed);
-
 
   return(
     <div className={styles.game}>

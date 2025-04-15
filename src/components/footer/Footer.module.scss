@@ -34,6 +34,16 @@
   color: #2747a0;
 }
 
+.Zelda{
+  button{
+    background-color: #f1faee;
+    border-color: #e63946;
+  }
+  span{
+    color: #f1faee;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .btnFooterForm {
     button{
