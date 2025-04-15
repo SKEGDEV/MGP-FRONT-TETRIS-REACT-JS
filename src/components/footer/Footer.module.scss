@@ -1,3 +1,12 @@
+@mixin skinApplied($ColorA, $ColorB) {
+   button{
+    background-color: $ColorA;
+    border-color: $ColorB;
+  }
+  span{
+    color: $ColorA;
+  } 
+}
 .btnFooterContainer {
   width: 100%;
   display: flex;
@@ -35,13 +44,31 @@
 }
 
 .Zelda{
-  button{
-    background-color: #f1faee;
-    border-color: #e63946;
-  }
-  span{
-    color: #f1faee;
-  }
+  @include skinApplied(#f1faee, #e63946);
+}
+
+.final_fantasy{
+  @include skinApplied(#4ecdc4, #ffe66d);
+}
+
+.kindred_1{
+  @include skinApplied(#ff6b6b, #4ecdc4);
+}
+
+.nes{
+  @include skinApplied(#00f5d4, #9b5de5);
+}
+
+.rick_morty_1{
+  @include skinApplied(#b5ead7, #f6bd60);
+}
+
+.rick_morty_2{
+  @include skinApplied(#fee440, #f15bb5);
+}
+
+.kindred_2{
+  @include skinApplied(#ff6ec7, #00f5d4);
 }
 
 @media screen and (max-width: 900px) {

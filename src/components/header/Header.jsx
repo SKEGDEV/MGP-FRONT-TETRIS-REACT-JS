@@ -11,6 +11,7 @@ import { MenuItems } from '../../constant/gameConstant';
 export default function HeaderGameBoy(){
   const {state, dispatch} = useContext(GlobalStateContext);
   const [play, {stop}] = useSound(soundtrack, {loop: true, volume: 0.5});
+  const skin = MenuItems[2]?.subMenu;
 
   useEffect(()=>{
     if(state?.menu?.isSelectedMenu == 0){
@@ -56,7 +57,7 @@ export default function HeaderGameBoy(){
         </div>
       </div>
       <div className={styles.titleNintendo}>
-        <h1 style={{color:`${MenuItems[2]?.subMenu[state?.skin]?.colorHeaderNintendo}`}}>Nintendo GAME BOY</h1>
+        <h1 style={{color:`${skin[state?.skin]?.colorA}`}}>Nintendo GAME BOY</h1>
       </div>
     </div>
   );

@@ -1,4 +1,37 @@
 
+@mixin skinApplied($ColorA, $ColorB) {
+  .btnCrossContainer{
+    background-color: transparent;
+    button{
+      background-color: $ColorA;
+      border-color: $ColorB;
+      &::after {
+        background-color: $ColorB;
+      }
+      &::before {
+        background-color: $ColorB;
+      }
+    }
+  }
+  .btnAbContainer{
+    background-color: transparent;
+    button{
+      background-color: $ColorB;
+      border-color: $ColorA;
+      &::after {
+        background-color: $ColorA;
+      }
+      &::before {
+        background-color: $ColorA;
+      }
+    }
+    .btnAbLabel span{
+      color: $ColorA;
+    }
+  } 
+  //#f1faee --> color A
+  //#e63946 --> color B
+}
 .btnGameContainer {
   display: flex;
   justify-content: space-between;
@@ -117,35 +150,31 @@
 }
 
 .Zelda{
-  .btnCrossContainer{
-    background-color: transparent;
-    button{
-      background-color: #f1faee;
-      border-color: #e63946;
-      &::after {
-        background-color: #e63946;
-      }
-      &::before {
-        background-color: #e63946;
-      }
-    }
-  }
-  .btnAbContainer{
-    background-color: transparent;
-    button{
-      background-color: #e63946;
-      border-color: #f1faee;
-      &::after {
-        background-color: #f1faee;
-      }
-      &::before {
-        background-color: #f1faee;
-      }
-    }
-    .btnAbLabel span{
-      color: #f1faee;
-    }
-  }
+  @include skinApplied(#f1faee, #e63946);
+}
+
+.final_fantasy{
+  @include skinApplied(#4ecdc4, #ffe66d);
+}
+
+.kindred_1{
+  @include skinApplied(#ff6b6b, #4ecdc4);
+}
+
+.nes{
+  @include skinApplied(#00f5d4, #9b5de5);
+}
+
+.rick_morty_1{
+  @include skinApplied(#b5ead7, #f6bd60);
+}
+
+.rick_morty_2{
+  @include skinApplied(#fee440, #f15bb5);
+}
+
+.kindred_2{
+  @include skinApplied(#ff6ec7, #00f5d4);
 }
 
 @media screen and (max-width: 900px) {

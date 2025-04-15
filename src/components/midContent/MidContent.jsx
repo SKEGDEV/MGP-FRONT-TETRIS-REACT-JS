@@ -11,6 +11,7 @@ export default function MidContent(){
   const rotation = useRotation();
   const pressKey = useKey();
   const {state, dispatch} = useContext(GlobalStateContext); 
+  const skin = MenuItems[2]?.subMenu;
 
   const handleArrowUp = ()=>{
     rotation();
@@ -37,7 +38,7 @@ export default function MidContent(){
   }
  
   return(
-      <div className={`${styles.btnGameContainer} ${MenuItems[2]?.subMenu[state?.skin]?.classMidContent}`}>
+      <div className={`${styles.btnGameContainer} ${skin[state?.skin]?.classMidContent}`}>
         <div className={styles.btnCrossContainer}>
           <button name='ArrowUp' onClick={handleArrowUp}></button>
           <div className={styles.btnCrossVertical}>
