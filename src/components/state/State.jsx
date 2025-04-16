@@ -105,7 +105,7 @@ const reducer = (state, action) =>{
 	  score:state.game.score + (action.linesCleared === 1 ? 40 :
 	                            action.linesCleared === 2 ? 100 : 300) * (state.game.level + 1),
 	  level:newLevel,
-	  linesCleared: state.game.linesCleared + 1,
+	  linesCleared: state.game.linesCleared + action.linesCleared,
 	  speed:newSpeed
 	}
       }

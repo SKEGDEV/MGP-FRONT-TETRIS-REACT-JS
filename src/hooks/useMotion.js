@@ -101,8 +101,9 @@ export function useMotion(){
                  rotation === 1 ? piece.dimensions[1]: 0;
     let boardX = state.game.currentX + addX; 
     let boardY = state.game.currentY + addY;
+  
     dispatch({type:actions.SET_POSITION, payload:{x:boardX, y:boardY}});
-    let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value))); 
+    let newBoard = state.game.board.map(d=>d.map(value => (value == 2 ? 0 : value)));
     let value = 0;
     if(rotation >= 2){
       while(shapeY >= limitY){
