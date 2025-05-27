@@ -1,5 +1,5 @@
 
-# 🕹️ Tetris Retro – Game Boy Style
+# 🕹️ Tetris Retro – Game Boy Style [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/SKEGDEV/MGP-FRONT-TETRIS-REACT-JS)
 
 A nostalgic throwback: this Tetris is inspired by the classic **Game Boy** console, featuring a retro aesthetic and gameplay adapted for both mobile and desktop. Built with **React.js** using `useReducer` and custom hooks to simulate the logic of a fully playable, fluid, and fun Tetris experience.
 
